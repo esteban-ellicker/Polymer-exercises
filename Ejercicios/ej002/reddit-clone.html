@@ -1,0 +1,82 @@
+<link rel="import" href="./reddit-loader.html">
+<link rel="import" href="./reddit-clone-dm.html">
+<link rel="import" href="./reddit-clone-header.html">
+<link rel="import" href="./reddit-selected-item.html">
+<link rel="import" href="./reddit-item-list.html">
+<dom-module id="reddit-clone">
+    <template>
+        <style>
+        .container {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+        </style>
+        <div class="container">
+            <reddit-loader id="loader"></reddit-loader>
+            <reddit-clone-dm id="dm"></reddit-clone-dm>
+            <reddit-clone-header id="header" reddits-count="[[redditsCount]]" reddits-rendered="[[redditsRendered]]"></reddit-clone-header>
+            <h1>Reddit clone</h1>
+            <reddit-selected-item id="si" item="[[redditSelected]]"></reddit-selected-item>
+            <reddit-item-list id="il" reddits="[[reddits]]"></reddit-item-list>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: 'reddit-clone',
+        properties: {
+            reddits: {
+                type: Array,
+                value: []
+            },
+            redditsCount: {
+                type: Number,
+                value: 0
+            },
+            redditsRendered: {
+                type: Number,
+                value: 0
+            },
+            redditSelected: {
+                type: Object
+            }
+        },
+        listeners: {
+            'dm.data-loaded': '_dmDataLoaded',
+            'dm.data-error': '_dmDataError',
+            'il.reddit-selected': '_selectReddit',
+            'il.item-count-changed': '_listItemCountChanged'
+        },
+        attached() {
+            console.log("reddit-clone.attached()");
+            this.$.loader.show();
+            this.$.dm.load();
+        },
+        _computeRedditsCount(reddits) {
+            return reddits.length;
+        },
+        _dmDataLoaded(event) {
+            console.log("reddit-clone._dmDataLoaded()");
+            console.log(event);
+            console.log(event.detail);
+            this.reddits = event.detail;
+            this.$.loader.hide();
+        },
+        _dmDataError(event) {
+            console.log("reddit-clone._dmDataError()");
+            console.log(event);
+            this.$.loader.hide();
+        },
+        _selectReddit(event) {
+            console.log("reddit-clone._selectReddit()");
+            console.log(event);
+            this.redditSelected = event.detail;
+        },
+        _listItemCountChanged(event) {
+            console.log("reddit-clone._listRenderItemCountChanged()");
+            console.log(event);
+            this.redditsCount = event.detail.count;
+            this.redditsRendered = event.detail.rendered;
+        }
+    });
+    </script>
+</dom-module>

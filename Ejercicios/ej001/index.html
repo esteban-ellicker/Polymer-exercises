@@ -1,0 +1,30 @@
+<html>
+
+<head>
+    <script>
+    window.Polymer = {
+        dom: 'shadow',
+        useNeativeCSSProperties: true
+    }
+    </script>
+    <link rel="import" href="./bower_components/polymer/polymer.html">
+    <link rel="import" href="./mi-componente.html">
+</head>
+
+<body>
+    <mi-componente nombre="Instancia Uno" titulo="Uno"></mi-componente>
+    <mi-componente nombre="Instancia Dos" titulo="Dos "></mi-componente>
+    <mi-componente nombre="Instancia Tres"></mi-componente>
+    <script>
+    window.onload = function() {
+        document.querySelectorAll("mi-componente").forEach(element =>
+            element.addEventListener(
+                "titulo-changed",
+                event => console.log(`Evento titulo-changed  ${element.nombre}: ${event.detail.value}`)
+            )
+        );
+    }
+    </script>
+</body>
+
+</html>
