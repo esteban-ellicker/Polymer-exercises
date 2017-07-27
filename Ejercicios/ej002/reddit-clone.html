@@ -44,7 +44,8 @@
             'dm.data-loaded': '_dmDataLoaded',
             'dm.data-error': '_dmDataError',
             'il.reddit-selected': '_selectReddit',
-            'il.item-count-changed': '_listItemCountChanged'
+            'il.item-count-changed': '_listItemCountChanged',
+            'il.request-refresh': '_listItemRefresh'
         },
         attached() {
             console.log("reddit-clone.attached()");
@@ -76,6 +77,12 @@
             console.log(event);
             this.redditsCount = event.detail.count;
             this.redditsRendered = event.detail.rendered;
+        },
+        _listItemRefresh(event) {
+            console.log("reddit-clone._listItemRefresh()");
+            console.log(event);
+            this.$.loader.show();
+            this.$.dm.load();
         }
     });
     </script>

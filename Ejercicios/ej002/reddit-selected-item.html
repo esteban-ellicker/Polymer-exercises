@@ -18,32 +18,29 @@
             color: #eeeeff;
             background: #aaccff;
             background: linear-gradient(140deg, #458, #89c);
-            display: none;
-        }
-
-        .item-selected[visible] {
             display: block;
         }
 
         .no-item-selected {
+            position: relative;
             border-radius: 8px;
-            padding: 8px;
-            margin: 4px 0;
+            padding: 10px 16px 10px 38px;
             color: #eeeeff;
             background: #aaccff;
             background: linear-gradient(140deg, #458, #89c);
             display: inline-block;
+            vertical-align: top;
         }
 
-        .no-item-selected[hidden] {
-            display: none;
+        .no-item-selected:before {
+            position: absolute;
+            top: 5px;
+            left: 8px;
+            font-size: 24px;
+            content: "🚫";
         }
 
         .thumbnail {
-            display: none;
-        }
-
-        .thumbnail[visible] {
             display: inline-block;
             max-width: 140px;
             max-height: 70px;
@@ -95,18 +92,24 @@
         </style>
         <div class="container">
             <h2>Reddit selected</h2>
-            <div class="item-selected" id="[[item.id]]" name$="[[item.name]]" visible$="[[hasItem]]">
-                <h3 class="item-title">[[item.title]]</h3>
-                <img class="thumbnail" src="[[item.thumbnail]]" visible$="[[hasThumbnail]]" />
-                <div class="item-attrs">
-                    <span class="item-attr url-attr"><span class="label">URL</span><span class="value"><a href$="[[item.url]]" target="_blank">[[item.url]]</a></span></span>
-                    <span class="item-attr"><span class="label">Subreddit</span><span class="value">[[item.subreddit]]</span></span>
-                    <span class="item-attr"><span class="label">Author</span><span class="value">[[item.author]]</span></span>
-                    <span class="item-attr"><span class="label">Ups</span><span class="value">[[item.ups]]</span></span>
-                    <span class="item-attr"><span class="label">Downs</span><span class="value">[[item.downs]]</span></span>
+            <template is="dom-if" if="[[hasItem]]">
+                <div class="item-selected" id="[[item.id]]" name$="[[item.name]]">
+                    <h3 class="item-title">[[item.title]]</h3>
+                    <template is="dom-if" if="[[hasThumbnail]]">
+                        <img class="thumbnail" src="[[item.thumbnail]]" />
+                    </template>
+                    <div class="item-attrs">
+                        <span class="item-attr url-attr"><span class="label">URL</span><span class="value"><a href$="[[item.url]]" target="_blank">[[item.url]]</a></span></span>
+                        <span class="item-attr"><span class="label">Subreddit</span><span class="value">[[item.subreddit]]</span></span>
+                        <span class="item-attr"><span class="label">Author</span><span class="value">[[item.author]]</span></span>
+                        <span class="item-attr"><span class="label">Ups</span><span class="value">[[item.ups]]</span></span>
+                        <span class="item-attr"><span class="label">Downs</span><span class="value">[[item.downs]]</span></span>
+                    </div>
                 </div>
-            </div>
-            <div class="no-item-selected" hidden$="[[hasItem]]">No item selected</div>
+            </template>
+            <template is="dom-if" if="[[!hasItem]]">
+                <div class="no-item-selected">No item selected</div>
+            </template>
         </div>
     </template>
     <script>
@@ -118,7 +121,8 @@
             },
             hasItem: {
                 type: Boolean,
-                computed: '_computeHasItem(item)'
+                computed: '_computeHasItem(item)',
+                value: false
             },
             hasThumbnail: {
                 type: Boolean,
@@ -129,7 +133,7 @@
             return typeof item == 'object'
         },
         _computeHasThumbnail(item) {
-            return /\W/.test(item.thumbnail);
+            return /^http/.test(item.thumbnail);
         }
     });
     </script>

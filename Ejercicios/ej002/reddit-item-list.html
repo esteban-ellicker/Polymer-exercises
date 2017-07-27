@@ -77,13 +77,34 @@
             font-size: 14px;
             display: block;
             border-radius: 8px;
-            border: 1px solid #00c;
+            border: 1px solid #268;
             padding: 8px 8px 8px 32px;
             margin-bottom: 8px;
         }
+
+        .btn-refresh {
+            font-size: 14px;
+            float: right;
+            border-radius: 8px;
+            border: 1px solid #268;
+            padding: 8px;
+            margin: 0 8px 8px 0;
+            color: #eef;
+            background: #379;
+            background: linear-gradient(170deg, #379, #047);
+            cursor: pointer;
+        }
+
+        .btn-refresh:hover {
+            border: 1px solid #379;
+            color: #fff;
+            background: #48a;
+            background: linear-gradient(170deg, #48a, #158);
+        }
         </style>
         <div class="container">
-            <span class="filter-box"><input type="text" id="item-search" value="{{filterText::input}}" class="filter" /></span>
+            <span class="filter-box"><input type="text" id="item-search" value="{{filterText::input}}" class="filter" placeholder="Filter list items" /></span>
+            <button type="button" id="btn-refresh" class="btn-refresh" on-tap="_refreshList">Refresh List</button>
             <h2>Reddit list</h2>
             <template is="dom-repeat" id="redditsList" items="{{redditsForView}}" filter="{{_computeFilter(filterText)}}">
                 <div class="item-list" id="[[item.reddit.id]]" name="[[item.reddit.name]]" on-tap="_selectItem">
@@ -106,7 +127,8 @@
             },
             redditsForView: {
                 type: Array,
-                computed: '_computeRedditsForView(reddits,filterText)'
+                computed: '_computeRedditsForView(reddits,filterText)',
+                value: []
             },
             filterText: {
                 type: String,
@@ -145,6 +167,9 @@
                 count: this.reddits.length,
                 rendered: event.detail.value
             });
+        },
+        _refreshList() {
+            this.fire('request-refresh');
         }
     });
     </script>
