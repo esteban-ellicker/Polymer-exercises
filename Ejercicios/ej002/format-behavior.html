@@ -1,0 +1,9 @@
+<script>
+window.MyBehaviors = window.MyBehaviors || {};
+
+MyBehaviors.FormatBehavior = {
+    getDateString(seconds) {
+        return new Date(seconds * 1000).toISOString();
+    }
+}
+</script>

@@ -1,3 +1,4 @@
+<link rel="import" href="./format-behavior.html">
 <dom-module id="reddit-selected-item">
     <template>
         <style>
@@ -104,6 +105,7 @@
                         <span class="item-attr"><span class="label">Author</span><span class="value">[[item.author]]</span></span>
                         <span class="item-attr"><span class="label">Ups</span><span class="value">[[item.ups]]</span></span>
                         <span class="item-attr"><span class="label">Downs</span><span class="value">[[item.downs]]</span></span>
+                        <span class="item-attr"><span class="label">Created</span><span class="value">[[getDateString(item.created_utc)]]</span></span>
                     </div>
                 </div>
             </template>
@@ -129,6 +131,7 @@
                 computed: '_computeHasThumbnail(item)'
             }
         },
+        behaviors: [MyBehaviors.FormatBehavior],
         _computeHasItem(item) {
             return typeof item == 'object'
         },
