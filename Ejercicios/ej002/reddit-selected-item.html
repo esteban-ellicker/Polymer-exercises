@@ -43,11 +43,22 @@
 
         .thumbnail {
             display: inline-block;
-            max-width: 140px;
-            max-height: 70px;
             vertical-align: top;
             margin-right: 4px;
             border-radius: 4px;
+            transition: all 0.8s ease;
+            min-width: 35px;
+            min-height: 35px;
+            max-width: 210px;
+            max-height: 70px;
+        }
+
+        .thumbnail:hover {
+            transition: all 0.8s ease;
+            min-width: 140px;
+            min-height: 140px;
+            max-width: 630px;
+            max-height: 210px;
         }
 
         .item-selected a {
@@ -105,7 +116,7 @@
                         <span class="item-attr"><span class="label">Author</span><span class="value">[[item.author]]</span></span>
                         <span class="item-attr"><span class="label">Ups</span><span class="value">[[item.ups]]</span></span>
                         <span class="item-attr"><span class="label">Downs</span><span class="value">[[item.downs]]</span></span>
-                        <span class="item-attr"><span class="label">Created</span><span class="value">[[getDateString(item.created_utc)]]</span></span>
+                        <span class="item-attr"><span class="label">Created</span><span class="value">[[createdDate]]</span></span>
                     </div>
                 </div>
             </template>
@@ -129,6 +140,10 @@
             hasThumbnail: {
                 type: Boolean,
                 computed: '_computeHasThumbnail(item)'
+            },
+            createdDate: {
+                type: Boolean,
+                computed: '_computeCreatedDate(item)'
             }
         },
         behaviors: [MyBehaviors.FormatBehavior],
@@ -137,6 +152,9 @@
         },
         _computeHasThumbnail(item) {
             return /^http/.test(item.thumbnail);
+        },
+        _computeCreatedDate(item){
+            return this.getDateString(item.created_utc);
         }
     });
     </script>

@@ -1,0 +1,75 @@
+<link rel="import" href="./my-extended-behavior.html">
+<dom-module id="my-component-1">
+    <template>
+        <style>
+        .container {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            border-radius: 8px;
+            padding: 8px;
+            margin: 4px 0;
+            border: 1px solid #f00;
+        }
+
+        .container[on="1"] {
+            border: 4px solid #c00;
+            background: linear-gradient(150deg, #ffe, #ecc);
+        }
+
+        .title {
+            border-radius: 8px;
+            padding: 8px;
+            margin: 4px 0;
+            background: #eef;
+            background: linear-gradient(140deg, #fee, #fff);
+        }
+
+        .container[on="1"] .title {
+            background: #eef;
+            background: linear-gradient(140deg, #fcc, #fff);
+        }
+
+        .label {
+            padding-left: 4px;
+        }
+
+        .value {
+            background: #abe;
+            border-radius: 2px;
+            padding: 0 4px;
+        }
+
+        small {
+            color: #777;
+        }
+        </style>
+        <div class="container" on$="[[on]]" on-tap="toggleOn">
+            <h2 class="title">[[fullTitle]]</h2>
+            <p>Este es el conponentes número uno <small>([[getComponentName()]])</small></p>
+            <p>
+                <span class="label">title:</span>
+                <span class="value">[[title]]</span>
+                <span class="label">titleName:</span>
+                <span class="value">[[titleName]]</span>
+                <span class="label">titleType:</span>
+                <span class="value">[[titleType]]</span>
+                <span class="label">fullTitle:</span>
+                <span class="value">[[fullTitle]]</span>
+                <span class="label">on:</span>
+                <span class="value">[[on]]</span>
+            </p>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: 'my-component-1',
+        properties: {
+            title: {
+                type: String,
+                value: 'Componente Uno'
+            }
+        },
+        behaviors: [MyBehaviors.MyBaseBehavior]
+    });
+    </script>
+</dom-module>

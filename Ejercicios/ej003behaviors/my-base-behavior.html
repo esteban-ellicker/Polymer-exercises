@@ -1,0 +1,38 @@
+<script>
+window.MyBehaviors = window.MyBehaviors || {};
+
+MyBehaviors.MyBaseBehavior = {
+    properties: {
+        title: {
+            type: String,
+            value: ''
+        },
+        titleName: {
+            type: String,
+            value: ''
+        },
+        titleType: {
+            type: String,
+            value: 'Base'
+        },
+        fullTitle: {
+            type: String,
+            computed: '_computeFullTitle(title, titleName, titleType)',
+            value: ''
+        },
+        on: {
+            type: Number,
+            value: 0
+        }
+    },
+    _computeFullTitle(title, titleName, titleType) {
+        return `${title} :: ${titleName} (${titleType})`;
+    },
+    toggleOn() {
+        this.on = (this.on + 1) % 2;
+    },
+    getComponentName(){
+    	return this.tagName.toLowerCase();
+    }
+}
+</script>

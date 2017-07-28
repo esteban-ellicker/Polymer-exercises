@@ -1,0 +1,16 @@
+<link rel="import" href="./my-base-behavior.html">
+<script>
+window.MyBehaviors = window.MyBehaviors || {};
+
+MyBehaviors.MyExtendedBehavior = [MyBehaviors.MyBaseBehavior, {
+    properties: {
+        titleType: {
+            type: String,
+            value: 'Extendido'
+        }
+    },
+    toggleOn() {
+        this.on = (this.on + 1) % 5;
+    }
+}];
+</script>

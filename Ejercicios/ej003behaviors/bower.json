@@ -1,10 +1,15 @@
 {
-  "name": "ej002",
+  "name": "ej003behaviors",
   "authors": [
     "Esteban Ellicker <esteban.ellicker@bbva.com>"
   ],
-  "description": "Ejercicio Reddit",
-  "main": "",
+  "description": "Ejercicio número 3 behaviors",
+  "main": "index.html",
+  "keywords": [
+    "ejercicio",
+    "polymer",
+    "behaviors"
+  ],
   "license": "MIT",
   "homepage": "",
   "ignore": [
@@ -16,8 +21,5 @@
   ],
   "dependencies": {
     "polymer": "1.9.3"
-  },
-  "devDependencies": {
-    "web-component-tester": "^6.0.0"
   }
 }
