@@ -1,0 +1,42 @@
+<link rel="import" href="./my-child-shared-styles.html">
+<dom-module id="my-child-component">
+    <template>
+        <style include="my-child-shared-styles">
+        header.ext-content,
+         ::content header {
+            font-size: var(--my-child-component-header-font-size, var(--default-font-size, 25px));
+            color: var(--my-child-component-header-font-color, var(--default-font-color, blue));
+            @apply(--my-child-component-header);
+        }
+
+        article.ext-content,
+         ::content article {
+            font-size: var(--my-child-component-article-font-size, var(--default-font-size, 16px));
+            color: var(--my-child-component-article-font-color, var(--default-font-color, black));
+            @apply(--my-child-component-article);
+        }
+
+        footer.ext-content,
+         ::content footer {
+            font-size: var(--my-child-component-footer-font-size, var(--default-font-size, 14px));
+            color: var(--my-child-component-footer-font-color, var(--default-font-color, gray));
+            @apply(--my-child-component-footer);
+        }
+        </style>
+        <content select="header">
+            <header class="ext-content">My default header</header>
+        </content>
+        <content select="article">
+            <article class="ext-content">My default article</article>
+        </content>
+        <content select="footer">
+            <footer class="ext-content">My default footer</footer>
+        </content>
+    </template>
+    <script>
+    Polymer({
+        is: 'my-child-component',
+        properties: {}
+    });
+    </script>
+</dom-module>

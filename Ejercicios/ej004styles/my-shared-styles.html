@@ -1,0 +1,31 @@
+<dom-module id="my-shared-styles">
+    <template>
+        <style>
+        /*
+         :root {
+            --default-font-size: 16px;
+            --default-font-color: navy;
+        }*/
+
+         :host {
+            display: block;
+            border: 2px solid black;
+            padding: 8px;
+        }
+
+         :host(.round-box) {
+            background: linear-gradient(to bottom right, white, lightskyblue);
+            border: 2px solid skyblue;
+            border-radius: 16px;
+            padding: 10px;
+        }
+
+         :host(.ellipse) {
+            background: linear-gradient(to bottom right, white, lightseagreen);
+            border: 2px solid mediumseagreen;
+            border-radius: 50%;
+            padding: 16px 24px;
+        }
+        </style>
+    </template>
+</dom-module>

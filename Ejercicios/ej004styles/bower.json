@@ -1,0 +1,25 @@
+{
+  "name": "ej004styles",
+  "authors": [
+    "Esteban Ellicker <esteban.ellicker@bbva.com>"
+  ],
+  "description": "Ejercicio número 4 Estilos",
+  "main": "index.html",
+  "keywords": [
+    "ejercicio",
+    "polymer",
+    "styles"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "1.9.3"
+  }
+}

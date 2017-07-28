@@ -1,0 +1,128 @@
+<link rel="import" href="./my-shared-styles.html">
+<link rel="import" href="./my-child-component.html">
+<dom-module id="my-main-component">
+    <template>
+        <style include="my-shared-styles">
+        my-child-component.ellipse {
+            --my-child-component-header: {
+                text-align: center;
+            }
+            --my-child-component-article: {
+                text-align: center;
+                border: 1px solid seagreen;
+                border-radius: 4px;
+            }
+            --my-child-component-footer: {
+                text-align: center;
+            }
+        }
+
+        my-child-component#customized-content {
+            --my-child-component-header-font-color: green;
+            --my-child-component-article-font-color: darkgreen;
+            --my-child-component-footer-font-color: darkgrey;
+        }
+
+        my-child-component#round-box-customized-content {
+            --my-child-component-header-font-color: red;
+            --my-child-component-article-font-color: firebrick;
+            --my-child-component-footer-font-color: maroon;
+        }
+
+        my-child-component#ellipse-customized-content {
+            --my-child-component-header-font-color: firebrick;
+            --my-child-component-article-font-color: maroon;
+            --my-child-component-article-font-size: 18px;
+            --my-child-component-footer-font-color: peru;
+        }
+        </style>
+        <h1>Main component</h1>
+        <my-child-component id="default-content">
+        </my-child-component>
+        <my-child-component id="round-box-default-content" class="round-box">
+        </my-child-component>
+        <my-child-component id="ellipse-default-content" class="ellipse">
+        </my-child-component>
+        <hr>
+        <my-child-component id="customized-header">
+            <header>My customized header</header>
+        </my-child-component>
+        <my-child-component id="round-box-customized-header" class="round-box">
+            <header>My customized header</header>
+        </my-child-component>
+        <my-child-component id="ellipse-customized-header" class="ellipse">
+            <header>My customized header</header>
+        </my-child-component>
+        <hr>
+        <my-child-component id="customized-content">
+            <header>My customized header</header>
+            <article>My customized content article</article>
+            <footer>My customized content footer</footer>
+        </my-child-component>
+        <my-child-component id="round-box-customized-content" class="round-box">
+            <header>My customized header</header>
+            <article>My customized content article</article>
+            <footer>My customized content footer</footer>
+        </my-child-component>
+        <my-child-component id="ellipse-customized-content" class="ellipse">
+            <header>My customized header</header>
+            <article>My customized content article</article>
+            <footer>My customized content footer</footer>
+        </my-child-component>
+        <hr>
+        <my-child-component id="customized-html-content">
+            <header>
+                <h2>My cust header</h2>
+            </header>
+            <article>
+                <p>My customized html content article</p>
+                <ul>
+                    <li>Primer item</li>
+                    <li>Segundo item</li>
+                    <li>Tercer item</li>
+                </ul>
+            </article>
+            <footer>
+                <strong>My customized html content footer</strong>
+            </footer>
+        </my-child-component>
+        <my-child-component id="round-box-html-content" class="round-box">
+            <header>
+                <h2>My cust header</h2>
+            </header>
+            <article>
+                <p>My round box html content article</p>
+                <ul>
+                    <li>Primer item</li>
+                    <li>Segundo item</li>
+                    <li>Tercer item</li>
+                </ul>
+            </article>
+            <footer>
+                <strong>My round box html content footer</strong>
+            </footer>
+        </my-child-component>
+        <my-child-component id="ellipse-html-content" class="ellipse">
+            <header>
+                <h2>My cust header</h2>
+            </header>
+            <article>
+                <p>My ellipse html content article</p>
+                <ul>
+                    <li>Primer item</li>
+                    <li>Segundo item</li>
+                    <li>Tercer item</li>
+                </ul>
+            </article>
+            <footer>
+                <strong>My ellipse html content footer</strong>
+            </footer>
+        </my-child-component>
+    </template>
+    <script>
+    Polymer({
+        is: 'my-main-component',
+        properties: {}
+    });
+    </script>
+</dom-module>
