@@ -14,16 +14,16 @@
 <body>
     <test-fixture id="default">
         <template>
-            <reddit-selected-item></reddit-selected-item>
+            <reddit-item-list></reddit-item-list>
         </template>
     </test-fixture>
     <script>
-    suite('<reddit-selected-item> tag', function() {
+    suite('<reddit-item-list> tag', function() {
         var el;
 
         setup(function() {
             el = fixture('default');
-            el.item = {
+            el.reddits = [{
                 "id": "6pzbde",
                 "name": "t3_6pzbde",
                 "title": "FAKE REDDIT FOR TEST",
@@ -35,19 +35,27 @@
                 "thumbnail": "default",
                 "created": 1501198920,
                 "created_utc": 1501198920
-            };
+            }, {
+                "id": "6pzbde",
+                "name": "t3_6pzbde",
+                "title": "FAKE REDDIT FOR TEST",
+                "url": "https://www.bbva.com/",
+                "subreddit": "test",
+                "author": "Esteban",
+                "ups": 1,
+                "downs": 0,
+                "thumbnail": "default",
+                "created": 1501198920,
+                "created_utc": 1501198920
+            }];
         });
 
-        test('it should know that item is defined', function() {
-            assert.equal(el.hasItem, true);
+        test('it should compute reddits for view with same length of reddits', function() {
+            assert.equal(el.redditsForView.length, el.reddits.length);
         });
 
-        test('it should format seconds from 1970 as ISO date', function() {
-            assert.equal(el.createdDate, "2017-07-27T23:42:00.000Z");
-        });
-
-        test('it should know that don`t have image', function() {
-            assert.equal(el.hasThumbnail, false);
+        test('it should put orignal reddit reference for each item in reddits for view', function() {
+            assert.equal(el.redditsForView[0].reddit, el.reddits[0]);
         });
     });
     </script>

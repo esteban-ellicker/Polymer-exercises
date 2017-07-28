@@ -1,38 +1,35 @@
 <!doctype html>
 <html>
 
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
     <script src="../../test-fixture/test-fixture-mocha.js"></script>
-
     <link rel="import" href="../../polymer/polymer.html">
     <link rel="import" href="../reddit-clone.html">
-  </head>
+</head>
 
-  <body>
+<body>
     <test-fixture id="default">
-      <template>
-        <reddit-clone></reddit-clone>
-      </template>
+        <template>
+            <reddit-clone></reddit-clone>
+        </template>
     </test-fixture>
-
     <script>
-      suite('<reddit-clone> tag', function() {
+    suite('<reddit-clone> tag', function() {
         var el;
 
         setup(function() {
-          el = fixture('default');
+            el = fixture('default');
         });
 
         test('it should...', function() {
-          assert.equal(true, true);
+            assert.equal(true, true);
         });
-      });
+    });
     </script>
-  </body>
+</body>
 
 </html>
