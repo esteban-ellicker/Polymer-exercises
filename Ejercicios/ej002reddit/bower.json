@@ -1,0 +1,23 @@
+{
+  "name": "ej002",
+  "authors": [
+    "Esteban Ellicker <esteban.ellicker@bbva.com>"
+  ],
+  "description": "Ejercicio Reddit",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "1.9.3"
+  },
+  "devDependencies": {
+    "web-component-tester": "^6.0.0"
+  }
+}

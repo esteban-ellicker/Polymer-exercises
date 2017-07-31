@@ -1,0 +1,161 @@
+<link rel="import" href="./format-behavior.html">
+<dom-module id="reddit-selected-item">
+    <template>
+        <style>
+        .container {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            border-radius: 8px;
+            padding: 8px;
+            margin: 4px 0;
+            background: #aaccff;
+            background: linear-gradient(140deg, #def, #eee);
+        }
+
+        .item-selected {
+            border-radius: 8px;
+            padding: 8px;
+            margin: 4px 0;
+            color: #eeeeff;
+            background: #aaccff;
+            background: linear-gradient(140deg, #458, #89c);
+            display: block;
+        }
+
+        .no-item-selected {
+            position: relative;
+            border-radius: 8px;
+            padding: 10px 16px 10px 38px;
+            color: #eeeeff;
+            background: #aaccff;
+            background: linear-gradient(140deg, #458, #89c);
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .no-item-selected:before {
+            position: absolute;
+            top: 5px;
+            left: 8px;
+            font-size: 24px;
+            content: "🚫";
+        }
+
+        .thumbnail {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 4px;
+            border-radius: 4px;
+            transition: all 0.8s ease;
+            min-width: 35px;
+            min-height: 35px;
+            max-width: 210px;
+            max-height: 70px;
+        }
+
+        .thumbnail:hover {
+            transition: all 0.8s ease;
+            min-width: 140px;
+            min-height: 140px;
+            max-width: 630px;
+            max-height: 210px;
+        }
+
+        .item-selected a {
+            color: #acf;
+            text-decoration: none;
+        }
+
+        .item-selected a:hover {
+            color: #dff;
+        }
+
+        .item-title {
+            color: #def;
+            font-size: 16px;
+            margin: 8px 0;
+        }
+
+        .item-attrs {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .item-attr {
+            display: inline-block;
+            margin: 8px 16px 0 0;
+        }
+
+        .url-attr {
+            display: block;
+            margin: 8px 0 0 0;
+        }
+
+        .label {
+            display: block;
+            text-transform: uppercase;
+            font-size: 10px;
+            color: #aabbcc;
+        }
+
+        .label:after {
+            content: ":";
+        }
+        </style>
+        <div class="container">
+            <h2>Reddit selected</h2>
+            <template is="dom-if" if="[[hasItem]]">
+                <div class="item-selected" id="[[item.id]]" name$="[[item.name]]">
+                    <h3 class="item-title">[[item.title]]</h3>
+                    <template is="dom-if" if="[[hasThumbnail]]">
+                        <img class="thumbnail" src="[[item.thumbnail]]" />
+                    </template>
+                    <div class="item-attrs">
+                        <span class="item-attr url-attr"><span class="label">URL</span><span class="value"><a href$="[[item.url]]" target="_blank">[[item.url]]</a></span></span>
+                        <span class="item-attr"><span class="label">Subreddit</span><span class="value">[[item.subreddit]]</span></span>
+                        <span class="item-attr"><span class="label">Author</span><span class="value">[[item.author]]</span></span>
+                        <span class="item-attr"><span class="label">Ups</span><span class="value">[[item.ups]]</span></span>
+                        <span class="item-attr"><span class="label">Downs</span><span class="value">[[item.downs]]</span></span>
+                        <span class="item-attr"><span class="label">Created</span><span class="value">[[createdDate]]</span></span>
+                    </div>
+                </div>
+            </template>
+            <template is="dom-if" if="[[!hasItem]]">
+                <div class="no-item-selected">No item selected</div>
+            </template>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: 'reddit-selected-item',
+        properties: {
+            item: {
+                type: Object
+            },
+            hasItem: {
+                type: Boolean,
+                computed: '_computeHasItem(item)',
+                value: false
+            },
+            hasThumbnail: {
+                type: Boolean,
+                computed: '_computeHasThumbnail(item)'
+            },
+            createdDate: {
+                type: Boolean,
+                computed: '_computeCreatedDate(item)'
+            }
+        },
+        behaviors: [MyBehaviors.FormatBehavior],
+        _computeHasItem(item) {
+            return typeof item == 'object'
+        },
+        _computeHasThumbnail(item) {
+            return /^http/.test(item.thumbnail);
+        },
+        _computeCreatedDate(item){
+            return this.getDateString(item.created_utc);
+        }
+    });
+    </script>
+</dom-module>

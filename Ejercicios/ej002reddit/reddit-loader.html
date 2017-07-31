@@ -1,0 +1,70 @@
+<dom-module id="reddit-loader">
+    <template>
+        <style>
+        .loader {
+            display: none;
+        }
+
+        .loader[visible] {
+            display: block;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(240, 245, 255, 0.5);
+        }
+
+        .loader[visible] .sprite {
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            overflow: visible;
+            margin: auto;
+            border: 20px solid #0077ff;
+            border-top: 20px solid #0044cc;
+            border-radius: 50%;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            opacity: 0.8;
+            animation-name: spinner;
+            animation-duration: 2s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes spinner {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        </style>
+        <div class="loader" visible$="[[visible]]">
+            <div class="sprite"></div>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: 'reddit-loader',
+        properties: {
+            visible: {
+                type: Boolean,
+                value: false,
+                reflectToAttribute: true
+            }
+        },
+        show() {
+            this.visible = true;
+        },
+        hide() {
+            this.visible = false;
+        }
+    });
+    </script>
+</dom-module>
