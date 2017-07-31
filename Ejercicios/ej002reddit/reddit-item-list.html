@@ -1,3 +1,4 @@
+<link rel="import" href="./reddit-item.html">
 <dom-module id="reddit-item-list">
     <template>
         <style>
@@ -106,16 +107,12 @@
             <span class="filter-box"><input type="text" id="item-search" value="{{filterText::input}}" class="filter" placeholder="Filter list items" /></span>
             <button type="button" id="btn-refresh" class="btn-refresh" on-tap="_refreshList">Refresh List</button>
             <h2>Reddit list</h2>
-            <template is="dom-repeat" id="redditsList" items="{{redditsForView}}" filter="{{_computeFilter(filterText)}}">
-                <div class="item-list" id="[[item.reddit.id]]" name="[[item.reddit.name]]" on-tap="_selectItem">
-                    <h3 class="item-title">[[item.view.title]]</h3>
-                    <span class="item-attr url-attr"><span class="label">URL</span><span class="value"><a href$="[[item.reddit.url]]" target="_blank">[[item.view.url]]</a></span></span>
-                    <span class="item-attr"><span class="label">Subreddit</span><span class="value">[[item.reddit.subreddit]]</span></span>
-                    <span class="item-attr"><span class="label">Author</span><span class="value">[[item.reddit.author]]</span></span>
-                    <span class="item-attr"><span class="label">Ups / Downs</span><span class="value">[[item.reddit.ups]] / [[item.reddit.downs]]</span></span>
+            <template is="dom-repeat" id="redditsList" items="{{filteredReddits}}">
+                <div class="item-list" on-tap="_selectItem">
+                    <reddit-item id="[[item.id]" name="[[item.name]]" title="[[item.title]]" url="[[item.url]]" subreddit="[[item.subreddit]]" author="[[item.author]]" ups="[[item.ups]]" downs="[[item.downs]]" thumbnail="[[item.thumbnail]]" created="[[item.created]]" created-utc="[[item.createdUtc]]"></reddit-item>
                 </div>
+            </template>
         </div>
-        </template>
     </template>
     <script>
     Polymer({
@@ -125,48 +122,41 @@
                 type: Array,
                 value: []
             },
-            redditsForView: {
-                type: Array,
-                computed: '_computeRedditsForView(reddits,filterText)',
-                value: []
-            },
             filterText: {
                 type: String,
                 value: ""
+            },
+            filteredReddits: {
+                type: Array,
+                computed: '_computeFilteredReddits(reddits, filterText)',
+                value: []
+            },
+            redditsCount: {
+                type: Array,
+                computed: '_computeRedditsCount(reddits)'
+            },
+            filteredRedditsCount: {
+                type: Array,
+                computed: '_computeRedditsCount(filteredReddits)',
+                notify: true
             }
         },
-        listeners: {
-            'redditsList.rendered-item-count-changed': '_listRenderItemCountChanged'
+        _computeFilteredReddits(reddits, filterText) {
+            let filterTextLC = filterText.toLowerCase();
+            return reddits.filter(
+                reddit =>
+                reddit.title.toLowerCase().includes(filterTextLC) ||
+                reddit.subreddit.toLowerCase().includes(filterTextLC) ||
+                reddit.author.toLowerCase().includes(filterTextLC)
+            );
         },
-        _computeRedditsForView(reddits, filterText) {
-            return reddits.map(reddit => ({
-                reddit: reddit,
-                view: {
-                    title: reddit.title.length < 40 ? reddit.title : reddit.title.substring(0, 38) + ' …',
-                    url: reddit.url.length < 50 ? reddit.url : reddit.url.substring(0, 48) + ' …'
-                }
-            }))
+        _computeRedditsCount(reddits) {
+            return reddits.length;
         },
         _selectItem(event, a, b, c) {
             console.log("reddit-item-list.selectItem()");
             console.log(event.model.item);
-            this.fire('reddit-selected', event.model.item.reddit);
-        },
-        _computeFilter(filterText) {
-            let filterTextLC = filterText.toLowerCase();
-            return function(item) {
-                return item.reddit.title.toLowerCase().includes(filterTextLC) ||
-                    item.reddit.subreddit.toLowerCase().includes(filterTextLC) ||
-                    item.reddit.author.toLowerCase().includes(filterTextLC);
-            }
-        },
-        _listRenderItemCountChanged(event) {
-            console.log("reddit-item-list._listRenderItemCountChanged()");
-            console.log(event);
-            this.fire('item-count-changed', {
-                count: this.reddits.length,
-                rendered: event.detail.value
-            });
+            this.fire('reddit-selected', event.model.item);
         },
         _refreshList() {
             this.fire('request-refresh');

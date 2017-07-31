@@ -30,7 +30,8 @@
             },
             redditsCount: {
                 type: Number,
-                value: 0
+                value: 0,
+                computed: '_computeRedditsCount(reddits)'
             },
             redditsRendered: {
                 type: Number,
@@ -44,7 +45,7 @@
             'dm.data-loaded': '_dmDataLoaded',
             'dm.data-error': '_dmDataError',
             'il.reddit-selected': '_selectReddit',
-            'il.item-count-changed': '_listItemCountChanged',
+            'il.filtered-reddits-count-changed': '_filteredItemCountChanged',
             'il.request-refresh': '_listItemRefresh'
         },
         attached() {
@@ -72,11 +73,10 @@
             console.log(event);
             this.redditSelected = event.detail;
         },
-        _listItemCountChanged(event) {
-            console.log("reddit-clone._listRenderItemCountChanged()");
+        _filteredItemCountChanged(event) {
+            console.log("reddit-clone._filteredItemCountChanged()");
             console.log(event);
-            this.redditsCount = event.detail.count;
-            this.redditsRendered = event.detail.rendered;
+            this.redditsRendered = event.detail.value;
         },
         _listItemRefresh(event) {
             console.log("reddit-clone._listItemRefresh()");

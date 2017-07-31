@@ -1,0 +1,129 @@
+<dom-module id="reddit-item">
+    <template>
+        <style>
+        .container {
+            font-size: 12px;
+            border-radius: 8px;
+            padding: 8px;
+            margin: 4px 0;
+            background: #aaccff;
+            background: linear-gradient(140deg, #cdf, #acf);
+            display: inline-block;
+            max-width: 350px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        a {
+            color: #00f;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #00d;
+            border-radius: 4px;
+            background: linear-gradient(180deg, rgba(200, 230, 255, 0.5), rgba(255, 255, 255, 0.5));
+        }
+
+        .item-title {
+            font-size: 14px;
+            margin: 8px 0;
+        }
+
+        .item-attr {
+            display: inline-block;
+            margin: 8px 16px 0 0;
+        }
+
+        .url-attr {
+            display: block;
+            margin: 8px 0 0 0;
+        }
+
+        .label {
+            display: block;
+            text-transform: uppercase;
+            font-size: 9px;
+            color: #556677;
+        }
+
+        .label:after {
+            content: ":";
+        }
+        </style>
+        <div class="container">
+            <h3 class="item-title">[[viewTitle]]</h3>
+            <span class="item-attr url-attr"><span class="label">URL</span><span class="value"><a href$="[[url]]" target="_blank">[[viewUrl]]</a></span></span>
+            <span class="item-attr"><span class="label">Subreddit</span><span class="value">[[subreddit]]</span></span>
+            <span class="item-attr"><span class="label">Author</span><span class="value">[[author]]</span></span>
+            <span class="item-attr"><span class="label">Ups / Downs</span><span class="value">[[ups]] / [[downs]]</span></span>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: 'reddit-item',
+        properties: {
+            id: {
+                type: String,
+                value: ""
+            },
+            name: {
+                type: String,
+                value: ""
+            },
+            title: {
+                type: String,
+                value: ""
+            },
+            url: {
+                type: String,
+                value: ""
+            },
+            subreddit: {
+                type: String,
+                value: ""
+            },
+            author: {
+                type: String,
+                value: ""
+            },
+            ups: {
+                type: Number,
+                value: ""
+            },
+            downs: {
+                type: Number,
+                value: ""
+            },
+            thumbnail: {
+                type: String,
+                value: ""
+            },
+            created: {
+                type: Number,
+                value: ""
+            },
+            createdUtc: {
+                type: Number,
+                value: ""
+            },
+            viewTitle: {
+                type: String,
+                value: "",
+                computed: '_computeTitleForView(title)'
+            },
+            viewUrl: {
+                type: String,
+                value: "",
+                computed: '_computeUrlForView(url)',
+            }
+        },
+        _computeTitleForView(title) {
+            return title.length < 40 ? title : title.substring(0, 38) + ' …';
+        },
+        _computeUrlForView(url) {
+            return url.length < 50 ? url : url.substring(0, 48) + ' …';
+        }
+    });
+    </script>
+</dom-module>
