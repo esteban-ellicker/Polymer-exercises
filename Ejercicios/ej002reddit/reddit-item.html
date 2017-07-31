@@ -16,15 +16,18 @@
         a {
             color: var(--reddit-item-link-color, var(--default-link-color, #00f));
             @apply --default-link-style;
+            @apply --item-link-style;
         }
 
         a:hover {
             color: var(--reddit-item-link-hover-color, var(--default-link-hover-color, #77f));
             @apply --default-link-hover-style;
+            @apply --item-link-hover-style;
         }
 
         .item-title {
             margin: 8px 0;
+            @apply --item-title-style;
         }
 
         .thumbnail {
@@ -52,16 +55,19 @@
         .item-attrs {
             display: inline-block;
             vertical-align: top;
+            @apply --item-attrs-style;
         }
 
         .item-attr {
             display: inline-block;
             margin: 8px 16px 0 0;
+            @apply --item-attr-style;
         }
 
         .url-attr {
             display: block;
             margin: 8px 0 0 0;
+            @apply --item-url-style;
         }
 
         .label {

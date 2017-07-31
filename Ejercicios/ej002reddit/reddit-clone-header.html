@@ -24,6 +24,7 @@
         .title {
             display: inline-block;
             margin: 8px;
+            @apply --clone-header-title-style;
         }
 
         .header-item {
@@ -35,7 +36,7 @@
             font-size: var(--reddit-header-label-font-size, var(--default-label-font-size, 75%));
             color: var(--reddit-header-label-font-color, var(--default-label-color, black));
             @apply --default-label-style;
-            @apply --header-label-style;
+            @apply --clone-header-label-style;
         }
 
         .label:after {
