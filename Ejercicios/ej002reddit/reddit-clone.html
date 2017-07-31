@@ -5,16 +5,52 @@
 <link rel="import" href="./reddit-item-list.html">
 <dom-module id="reddit-clone">
     <template>
-        <style>
-        .container {
-            font-family: Arial, sans-serif;
-            font-size: 14px;
+        <style include="reddit-shared-styles reddit-clone-shared-styles">
+         :host {
+            font-family: var(--reddit-clone-font-family, var(--default-font-family, Arial, sans-serif));
+            font-size: var(--reddit-clone-font-size, var(--default-font-size, 14px));
+            color: var(--reddit-clone-font-color, var(--default-font-color, black));
+        }
+
+        reddit-clone-header {
+            --clone-header-box-style: {
+                float: right;
+                border: 1px solid red;
+            }
+            --clone-header-detail-box-style: {
+                border: 1px solid firebrick;
+            }
+        }
+
+        reddit-selected-item {
+            --selected-item-box-style: {
+                border: 1px solid blue;
+            }
+            --item-detail-box-style: {
+                border: 1px solid royalblue;
+            }
+            --no-item-detail-box-style: {
+                border: 1px solid steelblue;
+            }
+        }
+
+        reddit-item-list {
+            --reddit-item-font-size: 12px;
+            --item-list-box-style: {
+                border: 1px solid green;
+            }
+            --item-detail-box-style: {
+                border: 1px solid seagreen;
+            }
+            --no-item-list-box-style: {
+                border: 1px solid forestgreen;
+            }
         }
         </style>
         <div class="container">
             <reddit-loader id="loader"></reddit-loader>
             <reddit-clone-dm id="dm"></reddit-clone-dm>
-            <reddit-clone-header id="header" reddits-count="[[redditsCount]]" reddits-rendered="[[redditsRendered]]"></reddit-clone-header>
+            <reddit-clone-header id="header" reddits-count="[[reddits.length]]" reddits-rendered="[[redditsRendered]]"></reddit-clone-header>
             <h1>Reddit clone</h1>
             <reddit-selected-item id="si" item="[[redditSelected]]"></reddit-selected-item>
             <reddit-item-list id="il" reddits="[[reddits]]"></reddit-item-list>
@@ -28,11 +64,6 @@
                 type: Array,
                 value: []
             },
-            redditsCount: {
-                type: Number,
-                value: 0,
-                computed: '_computeRedditsCount(reddits)'
-            },
             redditsRendered: {
                 type: Number,
                 value: 0
@@ -42,47 +73,61 @@
             }
         },
         listeners: {
+            'load-start': 'loaderShow',
+            'load-end': 'loaderHide',
             'dm.data-loaded': '_dmDataLoaded',
             'dm.data-error': '_dmDataError',
             'il.reddit-selected': '_selectReddit',
-            'il.filtered-reddits-count-changed': '_filteredItemCountChanged',
-            'il.request-refresh': '_listItemRefresh'
+            'il.reddit-list-filtered': '_listFilterChanged',
+            'il.request-refresh': '_listItemRefresh',
+            'il.request-more': '_listItemLoadMore'
         },
         attached() {
             console.log("reddit-clone.attached()");
-            this.$.loader.show();
             this.$.dm.load();
-        },
-        _computeRedditsCount(reddits) {
-            return reddits.length;
         },
         _dmDataLoaded(event) {
             console.log("reddit-clone._dmDataLoaded()");
             console.log(event);
             console.log(event.detail);
-            this.reddits = event.detail;
-            this.$.loader.hide();
+            if (this.reddits.length) {
+                let newrReddits = event.detail.filter(newReddit => !this.reddits.find(reddit => reddit.id == newReddit.id));
+                this.push('reddits', ...newrReddits);
+                //this.reddits = this.reddits.concat(newrReddits);
+            } else {
+                this.reddits = event.detail;
+            }
         },
         _dmDataError(event) {
             console.log("reddit-clone._dmDataError()");
             console.log(event);
-            this.$.loader.hide();
         },
         _selectReddit(event) {
             console.log("reddit-clone._selectReddit()");
             console.log(event);
             this.redditSelected = event.detail;
         },
-        _filteredItemCountChanged(event) {
-            console.log("reddit-clone._filteredItemCountChanged()");
+        _listFilterChanged(event) {
+            console.log("reddit-clone._listFilterChanged()");
             console.log(event);
-            this.redditsRendered = event.detail.value;
+            this.redditsRendered = event.detail.length;
         },
         _listItemRefresh(event) {
             console.log("reddit-clone._listItemRefresh()");
             console.log(event);
-            this.$.loader.show();
+            this.reddits = [];
             this.$.dm.load();
+        },
+        _listItemLoadMore(event) {
+            console.log("reddit-clone._listItemLoadMore()");
+            console.log(event);
+            this.$.dm.load();
+        },
+        loaderShow() {
+            this.$.loader.show();
+        },
+        loaderHide() {
+            this.$.loader.hide();
         }
     });
     </script>

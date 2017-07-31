@@ -7,6 +7,7 @@
     Polymer({
         is: 'reddit-clone-dm',
         load: function() {
+            this.fire("load-start");
             console.log("reddit-clone-dm.load()");
             this.$.dp.fetch();
         },
@@ -18,24 +19,31 @@
             console.log("reddit-clone-dm._dpDataLoaded()");
             console.log(event);
             console.log(event.detail);
-            this.fire("data-loaded", event.detail.children.map(child => ({
-                id: child.data.id,
-                name: child.data.name,
-                title: child.data.title,
-                url: child.data.url,
-                subreddit: child.data.subreddit,
-                author: child.data.author,
-                ups: child.data.ups,
-                downs: child.data.downs,
-                thumbnail: child.data.thumbnail,
-                created: child.data.created,
-                createdUtc: child.data.created_utc
-            })));
+            this.fire(
+                "data-loaded",
+                event.detail.children.map(
+                    child => ({
+                        id: child.data.id,
+                        name: child.data.name,
+                        title: child.data.title,
+                        url: child.data.url,
+                        subreddit: child.data.subreddit,
+                        author: child.data.author,
+                        ups: child.data.ups,
+                        downs: child.data.downs,
+                        thumbnail: child.data.thumbnail,
+                        created: child.data.created,
+                        createdUtc: child.data.created_utc
+                    })
+                )
+            );
+            this.fire("load-end");
             event.stopPropagation();
         },
         _dpDataError(event) {
             console.log("reddit-clone-dm._dpDataError()");
             console.log(event);
+            this.fire("load-end");
         }
     });
     </script>

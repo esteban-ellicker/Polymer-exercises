@@ -59,6 +59,10 @@
                 reflectToAttribute: true
             }
         },
+        listeners: {
+            'load-start': 'show',
+            'load-end': 'hide'
+        },
         show() {
             this.visible = true;
         },

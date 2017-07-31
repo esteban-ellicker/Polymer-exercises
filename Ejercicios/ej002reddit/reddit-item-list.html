@@ -1,69 +1,19 @@
 <link rel="import" href="./reddit-item.html">
 <dom-module id="reddit-item-list">
     <template>
-        <style>
-        .container {
-            font-family: Arial, sans-serif;
-            font-size: 14px;
+        <style include="reddit-shared-styles reddit-item-list-shared-styles">
+         :host {
+            font-family: var(--reddit-item-list-font-family, var(--default-font-family, Arial, sans-serif));
+            font-size: var(--reddit-item-list-font-size, var(--default-font-size, 14px));
+            color: var(--reddit-item-list-font-color, var(--default-font-color, black));
             border-radius: 8px;
             padding: 8px;
-            margin: 4px 0;
-            background: #aaccff;
-            background: linear-gradient(140deg, #def, #eee);
+            background: #def;
+            @apply --default-box-style;
+            @apply --item-list-box-style;
         }
 
-        .item-list {
-            font-size: 12px;
-            border-radius: 8px;
-            padding: 8px;
-            margin: 4px 0;
-            background: #aaccff;
-            background: linear-gradient(140deg, #cdf, #acf);
-            display: inline-block;
-            max-width: 350px;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .item-list a {
-            color: #00f;
-            text-decoration: none;
-        }
-
-        .item-list a:hover {
-            color: #00d;
-            border-radius: 4px;
-            background: linear-gradient(180deg, rgba(200, 230, 255, 0.5), rgba(255, 255, 255, 0.5));
-        }
-
-        .item-title {
-            font-size: 14px;
-            margin: 8px 0;
-        }
-
-        .item-attr {
-            display: inline-block;
-            margin: 8px 16px 0 0;
-        }
-
-        .url-attr {
-            display: block;
-            margin: 8px 0 0 0;
-        }
-
-        .label {
-            display: block;
-            text-transform: uppercase;
-            font-size: 9px;
-            color: #556677;
-        }
-
-        .label:after {
-            content: ":";
-        }
-
-        .filter-box {
-            position: static;
+        .controles {
             float: right;
         }
 
@@ -72,47 +22,74 @@
             font-size: 20px;
             content: "🔎";
             padding: 4px 6px;
+            @apply --item-list-filter-box-style;
         }
 
         .filter {
-            font-size: 14px;
-            display: block;
-            border-radius: 8px;
-            border: 1px solid #268;
-            padding: 8px 8px 8px 32px;
-            margin-bottom: 8px;
+            font-size: var(--reddit-item-list-font-size, var(--default-font-size, 14px));
+            @apply --default-input-style;
+            padding-left: 32px;
+            @apply --item-list-filter-style;
         }
 
-        .btn-refresh {
-            font-size: 14px;
-            float: right;
+        .btn {
             border-radius: 8px;
-            border: 1px solid #268;
             padding: 8px 16px;
-            margin: 0 8px 8px 0;
+            border: 1px solid #268;
             color: #eef;
             background: #379;
-            background: linear-gradient(170deg, #379, #047);
+            font-size: var(--reddit-item-list-font-size, var(--default-font-size, 14px));
+            @apply --default-button-style;
+            @apply --item-list-button-style;
+        }
+
+        .btn:hover {
+            color: #fff;
+            background: #48a;
+            @apply --default-button-hover-style;
+            @apply --item-list-button-hover-style;
+        }
+
+        .item-list {
+            display: inline-block;
             cursor: pointer;
         }
 
-        .btn-refresh:hover {
-            border: 1px solid #379;
-            color: #fff;
-            background: #48a;
-            background: linear-gradient(170deg, #48a, #158);
+        .no-item-to-show {
+            border-radius: 8px;
+            padding: 8px;
+            background: #acf;
+            @apply --default-detail-box-style;
+            display: inline-block;
+            position: relative;
+            padding: 10px 16px 10px 38px;
+            vertical-align: top;
+            @apply --no-item-list-box-style;
+        }
+
+        .no-item-to-show:before {
+            position: absolute;
+            top: 5px;
+            left: 8px;
+            font-size: 24px;
+            content: "🚫";
+            @apply --no-item-list-box-before-style;
         }
         </style>
-        <div class="container">
+        <div class="controles">
+            <button type="button" id="btn-refresh" class="btn" on-tap="_refreshList">Refresh List</button>
+            <button type="button" id="btn-more" class="btn" on-tap="_loadMore">Load More</button>
             <span class="filter-box"><input type="text" id="item-search" value="{{filterText::input}}" class="filter" placeholder="Filter list items" /></span>
-            <button type="button" id="btn-refresh" class="btn-refresh" on-tap="_refreshList">Refresh List</button>
-            <h2>Reddit list</h2>
-            <template is="dom-repeat" id="redditsList" items="{{filteredReddits}}">
-                <div class="item-list" on-tap="_selectItem">
-                    <reddit-item id="[[item.id]" name="[[item.name]]" title="[[item.title]]" url="[[item.url]]" subreddit="[[item.subreddit]]" author="[[item.author]]" ups="[[item.ups]]" downs="[[item.downs]]" thumbnail="[[item.thumbnail]]" created="[[item.created]]" created-utc="[[item.createdUtc]]"></reddit-item>
-                </div>
-            </template>
         </div>
+        <h2>Reddit list</h2>
+        <template is="dom-repeat" id="redditsList" items="[[filteredReddits]]">
+            <div class="item-list" on-tap="_selectItem">
+                <reddit-item title="[[item.title]]" url="[[item.url]]" subreddit="[[item.subreddit]]" author="[[item.author]]" ups="[[item.ups]]" downs="[[item.downs]]" title-max-view-length="[[itemTitleMaxViewLength]]" url-max-view-length="[[itemUrlMaxViewLength]]" join-ups-downs></reddit-item>
+            </div>
+        </template>
+            <template is="dom-if" if="[[!filteredReddits.length]]">
+                <div class="no-item-to-show">No item to show</div>
+            </template>
     </template>
     <script>
     Polymer({
@@ -126,32 +103,32 @@
                 type: String,
                 value: ""
             },
+            itemTitleMaxViewLength: {
+                type: Number,
+                value: 40
+            },
+            itemUrlMaxViewLength: {
+                type: Number,
+                value: 50
+            },
             filteredReddits: {
                 type: Array,
-                computed: '_computeFilteredReddits(reddits, filterText)',
+                computed: '_computeFilteredReddits(reddits, filterText, reddits.length)',
                 value: []
-            },
-            redditsCount: {
-                type: Array,
-                computed: '_computeRedditsCount(reddits)'
-            },
-            filteredRedditsCount: {
-                type: Array,
-                computed: '_computeRedditsCount(filteredReddits)',
-                notify: true
             }
         },
         _computeFilteredReddits(reddits, filterText) {
+            //this.linkPaths('filteredReddits', 'reddits.length');
             let filterTextLC = filterText.toLowerCase();
-            return reddits.filter(
+            let filtered =  reddits.filter(
                 reddit =>
                 reddit.title.toLowerCase().includes(filterTextLC) ||
                 reddit.subreddit.toLowerCase().includes(filterTextLC) ||
                 reddit.author.toLowerCase().includes(filterTextLC)
             );
-        },
-        _computeRedditsCount(reddits) {
-            return reddits.length;
+            //.sort((a, b) => Intl.Collator().compare(a.title, b.title));
+            this.fire("reddit-list-filtered", filtered);
+            return filtered;
         },
         _selectItem(event, a, b, c) {
             console.log("reddit-item-list.selectItem()");
@@ -160,6 +137,9 @@
         },
         _refreshList() {
             this.fire('request-refresh');
+        },
+        _loadMore() {
+            this.fire('request-more');
         }
     });
     </script>

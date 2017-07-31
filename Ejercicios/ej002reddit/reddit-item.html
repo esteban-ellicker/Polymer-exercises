@@ -1,33 +1,57 @@
+<link rel="import" href="./format-behavior.html">
 <dom-module id="reddit-item">
     <template>
-        <style>
-        .container {
-            font-size: 12px;
+        <style include="reddit-shared-styles reddit-item-shared-styles">
+         :host {
+            font-family: var(--reddit-item-font-family, var(--default-font-family, Arial, sans-serif));
+            font-size: var(--reddit-item-font-size, var(--default-font-size, 12px));
+            color: var(--reddit-item-font-color, var(--default-font-color, black));
             border-radius: 8px;
             padding: 8px;
-            margin: 4px 0;
-            background: #aaccff;
-            background: linear-gradient(140deg, #cdf, #acf);
-            display: inline-block;
-            max-width: 350px;
-            overflow: hidden;
-            cursor: pointer;
+            background: #acf;
+            @apply --default-detail-box-style;
+            @apply --item-detail-box-style;
         }
 
         a {
-            color: #00f;
-            text-decoration: none;
+            color: var(--reddit-item-link-color, var(--default-link-color, #00f));
+            @apply --default-link-style;
         }
 
         a:hover {
-            color: #00d;
-            border-radius: 4px;
-            background: linear-gradient(180deg, rgba(200, 230, 255, 0.5), rgba(255, 255, 255, 0.5));
+            color: var(--reddit-item-link-hover-color, var(--default-link-hover-color, #77f));
+            @apply --default-link-hover-style;
         }
 
         .item-title {
-            font-size: 14px;
             margin: 8px 0;
+        }
+
+        .thumbnail {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 4px;
+            border-radius: 4px;
+            transition: all 0.8s ease;
+            min-width: 35px;
+            min-height: 35px;
+            max-width: 210px;
+            max-height: 70px;
+            @apply --item-thumbnail-style;
+        }
+
+        .thumbnail:hover {
+            transition: all 0.8s ease;
+            min-width: 140px;
+            min-height: 140px;
+            max-width: 630px;
+            max-height: 210px;
+            @apply --item-thumbnail-hover-style;
+        }
+
+        .item-attrs {
+            display: inline-block;
+            vertical-align: top;
         }
 
         .item-attr {
@@ -42,21 +66,35 @@
 
         .label {
             display: block;
-            text-transform: uppercase;
-            font-size: 9px;
-            color: #556677;
+            font-family: var(--reddit-item-label-font-family, var(--default-font-family, Arial, sans-serif));
+            font-size: var(--reddit-item-label-font-size, var(--default-label-font-size, 75%));
+            color: var(--reddit-item-label-font-color, var(--default-label-color, black));
+            @apply --default-label-style;
+            @apply --item-label-style;
         }
 
         .label:after {
             content: ":";
         }
         </style>
-        <div class="container">
-            <h3 class="item-title">[[viewTitle]]</h3>
+        <h3 class="item-title">[[viewTitle]]</h3>
+        <template is="dom-if" if="[[hasThumbnail]]">
+            <img class="thumbnail" src="[[thumbnail]]" />
+        </template>
+        <div class="item-attrs">
             <span class="item-attr url-attr"><span class="label">URL</span><span class="value"><a href$="[[url]]" target="_blank">[[viewUrl]]</a></span></span>
             <span class="item-attr"><span class="label">Subreddit</span><span class="value">[[subreddit]]</span></span>
             <span class="item-attr"><span class="label">Author</span><span class="value">[[author]]</span></span>
-            <span class="item-attr"><span class="label">Ups / Downs</span><span class="value">[[ups]] / [[downs]]</span></span>
+            <template is="dom-if" if="[[joinUpsDowns]]">
+                <span class="item-attr"><span class="label">Ups / Downs</span><span class="value">[[ups]] / [[downs]]</span></span>
+            </template>
+            <template is="dom-if" if="[[!joinUpsDowns]]">
+                <span class="item-attr"><span class="label">Ups</span><span class="value">[[ups]]</span></span>
+                <span class="item-attr"><span class="label">Downs</span><span class="value">[[downs]]</span></span>
+            </template>
+            <template is="dom-if" if="[[createdUtc]]">
+                <span class="item-attr"><span class="label">Created</span><span class="value">[[createdDate]]</span></span>
+            </template>
         </div>
     </template>
     <script>
@@ -107,22 +145,49 @@
                 type: Number,
                 value: ""
             },
+            titleMaxViewLength: {
+                type: Number,
+                value: 80
+            },
+            urlMaxViewLength: {
+                type: Number,
+                value: 100
+            },
+            joinUpsDowns: {
+                type: Boolean,
+                value: false
+            },
             viewTitle: {
                 type: String,
                 value: "",
-                computed: '_computeTitleForView(title)'
+                computed: '_computeTitleForView(title, titleMaxViewLength)'
             },
             viewUrl: {
                 type: String,
                 value: "",
-                computed: '_computeUrlForView(url)',
+                computed: '_computeUrlForView(url, urlMaxViewLength)',
+            },
+            hasThumbnail: {
+                type: Boolean,
+                computed: '_computeHasThumbnail(thumbnail)'
+            },
+            createdDate: {
+                type: Boolean,
+                computed: '_computeCreatedDate(createdUtc)'
             }
         },
-        _computeTitleForView(title) {
-            return title.length < 40 ? title : title.substring(0, 38) + ' …';
+        behaviors: [MyBehaviors.FormatBehavior],
+        _computeTitleForView(title, titleMaxViewLength) {
+            return title.length < titleMaxViewLength ? title : title.substring(0, titleMaxViewLength - 2) + ' …';
         },
-        _computeUrlForView(url) {
-            return url.length < 50 ? url : url.substring(0, 48) + ' …';
+        _computeUrlForView(url, urlMaxViewLength) {
+            return url.length < urlMaxViewLength ? url : url.substring(0, urlMaxViewLength - 2) + ' …';
+        },
+        _computeHasThumbnail(thumbnail) {
+            return /^http/.test(thumbnail);
+        },
+        _computeCreatedDate(createdUtc) {
+            return this.getDateString(createdUtc);
         }
     });
     </script>
