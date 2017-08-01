@@ -1,0 +1,51 @@
+<link rel="import" href="./my-child-shared-styles.html">
+<dom-module id="my-child-component">
+    <template>
+        <style include="my-child-shared-styles">
+        .default-content-cabecera,
+        #cabecera::content header {
+            font-size: var(--my-child-component-header-font-size, var(--default-font-size, 25px));
+            color: var(--my-child-component-header-font-color, var(--default-font-color, blue));
+            @apply(--my-child-component-header);
+        }
+
+        .default-content-contenido,
+        #contenido::content article {
+            font-size: var(--my-child-component-article-font-size, var(--default-font-size, 16px));
+            color: var(--my-child-component-article-font-color, var(--default-font-color, black));
+            @apply(--my-child-component-article);
+        }
+
+        #contenido::content article ul {
+            text-align: left;
+            @apply(--my-child-component-article-list);
+        }
+
+        #contenido::content article ul li {
+            @apply(--my-child-component-article-list-item);
+        }
+
+        .default-content-pie,
+        #pie::content footer {
+            font-size: var(--my-child-component-footer-font-size, var(--default-font-size, 14px));
+            color: var(--my-child-component-footer-font-color, var(--default-font-color, gray));
+            @apply(--my-child-component-footer);
+        }
+        </style>
+        <content select="header" id="cabecera">
+            <header class="default-content-cabecera">My default header</header>
+        </content>
+        <content select="article" id="contenido">
+            <article class="default-content-contenido">My default article</article>
+        </content>
+        <content select="footer" id="pie">
+            <footer class="default-content-pie">My default footer</footer>
+        </content>
+    </template>
+    <script>
+    Polymer({
+        is: 'my-child-component',
+        properties: {}
+    });
+    </script>
+</dom-module>

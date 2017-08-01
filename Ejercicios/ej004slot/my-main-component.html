@@ -1,0 +1,166 @@
+<link rel="import" href="./my-shared-styles.html">
+<link rel="import" href="./my-child-component.html">
+<dom-module id="my-main-component">
+    <template>
+        <style include="my-shared-styles">
+        my-child-component.ellipse {
+            --my-child-component-header: {
+                text-align: center;
+                margin: 8px;
+            }
+            --my-child-component-article: {
+                text-align: center;
+                border: 1px solid seagreen;
+                border-left-width: 3px;
+                border-right-width: 3px;
+                border-radius: 20%;
+            }
+            --my-child-component-footer: {
+                text-align: center;
+                margin: 8px;
+            }
+        }
+
+        #ellipse-html-content {
+            --my-child-component-header: {
+                text-align: center;
+                margin: 16px 16px 8px 16px;
+            }
+            --my-child-component-footer: {
+                text-align: center;
+                margin: 8px 16px 16px 16px;
+            }
+        }
+
+        my-child-component#customized-content {
+            --my-child-component-header-font-color: green;
+            --my-child-component-article-font-color: darkgreen;
+            --my-child-component-footer-font-color: darkgrey;
+        }
+
+        my-child-component#round-box-customized-content {
+            --my-child-component-header-font-color: red;
+            --my-child-component-article-font-color: firebrick;
+            --my-child-component-footer-font-color: maroon;
+        }
+
+        my-child-component#ellipse-customized-content {
+            --my-child-component-header-font-color: firebrick;
+            --my-child-component-article-font-color: maroon;
+            --my-child-component-article-font-size: 18px;
+            --my-child-component-footer-font-color: peru;
+        }
+
+        #customized-html-content {
+            --my-child-component-article-list: {
+                list-style-type: square;
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+            }
+        }
+
+        #round-box-html-content {
+            --my-child-component-article-list: {
+                margin: 4px;
+                padding: 4px 4px 4px 24px;
+                border-radius: 4px;
+                background: linear-gradient(to bottom right, seagreen, white);
+            }
+            --my-child-component-article-list-item: {
+                margin: 4px;
+                padding: 4px 4px 4px 8px;
+                border-radius: 4px;
+                background: linear-gradient(to bottom right, white, lightskyblue);
+            }
+        }
+        </style>
+        <h1>Main component</h1>
+        <my-child-component id="default-content">
+        </my-child-component>
+        <my-child-component id="round-box-default-content" class="round-box">
+        </my-child-component>
+        <my-child-component id="ellipse-default-content" class="ellipse">
+        </my-child-component>
+        <hr>
+        <my-child-component id="customized-header">
+            <header slot="cabecera">My customized header</header>
+        </my-child-component>
+        <my-child-component id="round-box-customized-header" class="round-box">
+            <header slot="cabecera">My customized header</header>
+        </my-child-component>
+        <my-child-component id="ellipse-customized-header" class="ellipse">
+            <header slot="cabecera">My customized header</header>
+        </my-child-component>
+        <hr>
+        <my-child-component id="customized-content">
+            <header slot="cabecera">My customized header</header>
+            <article slot="contenido">My customized content article</article>
+            <footer slot="pie">My customized content footer</footer>
+        </my-child-component>
+        <my-child-component id="round-box-customized-content" class="round-box">
+            <header slot="cabecera">My customized header</header>
+            <article slot="contenido">My customized content article</article>
+            <footer slot="pie">My customized content footer</footer>
+        </my-child-component>
+        <my-child-component id="ellipse-customized-content" class="ellipse">
+            <header slot="cabecera">My customized header</header>
+            <article slot="contenido">My customized content article</article>
+            <footer slot="pie">My customized content footer</footer>
+        </my-child-component>
+        <hr>
+        <my-child-component id="customized-html-content">
+            <header slot="cabecera">
+                <h2>My cust header</h2>
+            </header>
+            <article slot="contenido">
+                <p>My customized html content article</p>
+                <ul>
+                    <li>Primer item</li>
+                    <li>Segundo item</li>
+                    <li>Tercer item</li>
+                </ul>
+            </article>
+            <footer slot="pie">
+                <strong>My customized html content footer</strong>
+            </footer>
+        </my-child-component>
+        <my-child-component id="round-box-html-content" class="round-box">
+            <header slot="cabecera">
+                <h2>My cust header</h2>
+            </header>
+            <article slot="contenido">
+                <p>My round box html content article</p>
+                <ul>
+                    <li>Primer item</li>
+                    <li>Segundo item</li>
+                    <li>Tercer item</li>
+                </ul>
+            </article>
+            <footer slot="pie">
+                <strong>My round box html content footer</strong>
+            </footer>
+        </my-child-component>
+        <my-child-component id="ellipse-html-content" class="ellipse">
+            <header slot="cabecera">
+                <h2>My cust header</h2>
+            </header>
+            <article slot="contenido">
+                <p>My ellipse html content article</p>
+                <ul>
+                    <li>Primer item</li>
+                    <li>Segundo item</li>
+                    <li>Tercer item</li>
+                </ul>
+            </article>
+            <footer slot="pie">
+                <strong>My ellipse html content footer</strong>
+            </footer>
+        </my-child-component>
+    </template>
+    <script>
+    Polymer({
+        is: 'my-main-component',
+        properties: {}
+    });
+    </script>
+</dom-module>
