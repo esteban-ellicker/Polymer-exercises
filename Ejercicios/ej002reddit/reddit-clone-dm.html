@@ -8,7 +8,6 @@
         is: 'reddit-clone-dm',
         load: function() {
             this.fire("load-start");
-            console.log("reddit-clone-dm.load()");
             this.$.dp.fetch();
         },
         listeners: {
@@ -16,9 +15,6 @@
             'dp.data-error': '_dpDataError'
         },
         _dpDataLoaded(event) {
-            console.log("reddit-clone-dm._dpDataLoaded()");
-            console.log(event);
-            console.log(event.detail);
             this.fire(
                 "data-loaded",
                 event.detail.children.map(
@@ -41,8 +37,6 @@
             event.stopPropagation();
         },
         _dpDataError(event) {
-            console.log("reddit-clone-dm._dpDataError()");
-            console.log(event);
             this.fire("load-end");
         }
     });

@@ -131,8 +131,6 @@
             return filtered;
         },
         _selectItem(event, a, b, c) {
-            console.log("reddit-item-list.selectItem()");
-            console.log(event.model.item);
             this.fire('reddit-selected', event.model.item);
         },
         _refreshList() {

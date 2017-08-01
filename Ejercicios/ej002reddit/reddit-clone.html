@@ -83,13 +83,9 @@
             'il.request-more': '_listItemLoadMore'
         },
         attached() {
-            console.log("reddit-clone.attached()");
             this.$.dm.load();
         },
         _dmDataLoaded(event) {
-            console.log("reddit-clone._dmDataLoaded()");
-            console.log(event);
-            console.log(event.detail);
             if (this.reddits.length) {
                 let newrReddits = event.detail.filter(newReddit => !this.reddits.find(reddit => reddit.id == newReddit.id));
                 this.push('reddits', ...newrReddits);
@@ -99,28 +95,20 @@
             }
         },
         _dmDataError(event) {
-            console.log("reddit-clone._dmDataError()");
-            console.log(event);
+            console.error("reddit-clone._dmDataError()");
+            console.error(event);
         },
         _selectReddit(event) {
-            console.log("reddit-clone._selectReddit()");
-            console.log(event);
             this.redditSelected = event.detail;
         },
         _listFilterChanged(event) {
-            console.log("reddit-clone._listFilterChanged()");
-            console.log(event);
             this.redditsRendered = event.detail.length;
         },
         _listItemRefresh(event) {
-            console.log("reddit-clone._listItemRefresh()");
-            console.log(event);
             this.reddits = [];
             this.$.dm.load();
         },
         _listItemLoadMore(event) {
-            console.log("reddit-clone._listItemLoadMore()");
-            console.log(event);
             this.$.dm.load();
         },
         loaderShow() {
