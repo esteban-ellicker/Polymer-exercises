@@ -20,14 +20,11 @@
         }
 
         toolbar-item {
-            --common-toolbar-item-box-style: {
+            --toolbar-item-box-style: {
                 min-width: 120px;
                 min-height: 120px;
                 vertical-align: middle;
                 text-align: center;
-            }
-            --toolbar-item-box-style: {
-                @apply --common-toolbar-item-box-style;
             }
             --toolbar-item-content-style: {
                 vertical-align: middle;
@@ -38,25 +35,11 @@
                 width: 80px;
             }
         }
-
-        toolbar-item.item-0 {
-            --toolbar-item-box-style: {
-                @apply --common-toolbar-item-box-style;
-                border-radius: 16px 0 0 16px;
-            }
-        }
-
-        toolbar-item.item-last {
-            --toolbar-item-box-style: {
-                @apply --common-toolbar-item-box-style;
-                border-radius: 0 16px 16px 0;
-            }
-        }
         </style>
         <div class="container">
-            <template is="dom-repeat" id="tools-list" items="[[tools]]">
+            <template is="dom-repeat" id="tools-list" items="{{tools}}">
                 <div class="tool-item" on-tap="_selectTool">
-                    <toolbar-item text="[[item.text]]" icon="[[item.icon]]" image-url="[[item.imageUrl]]" image-alt="[[item.imageAlt]]" selected="[[_isItemSelected(index, selectedIndexes)]]" class$="[[_computeClass(index, tools.length)]]"></toolbar-item>
+                    <toolbar-item text="[[item.text]]" icon="[[item.icon]]" image-url="[[item.imageUrl]]" image-alt="[[item.imageAlt]]" selected="[[item.selected]]" class$="[[_computeClass(index, tools.length)]]"></toolbar-item>
                 </div>
             </template>
         </div>
@@ -80,7 +63,7 @@
                 }, {
                     text: "Tres",
                     icon: "fa fa-calculator fa-fw",
-                    imageUrl: "http://icons.iconarchive.com/icons/jonathan-rey/star-wars-vehicles/256/Tie-Advanced-icon.png",
+                    imageUrl: "http://icons.iconarchive.com/icons/jonathan-rey/star-wars-vehicles/256/Tie-Advanced-icon.png-",
                     imageAlt: "Advanced Tie Fighter"
                 }, {
                     text: "Cuatro",
@@ -95,32 +78,24 @@
                 }, {
                     text: "Seis",
                     icon: "fa fa-spinner fa-pulse fa-fw",
-                    imageUrl: "http://icons.iconarchive.com/icons/jonathan-rey/star-wars-vehicles/256/Death-Star-2nd-icon.png",
-                    imageAlt: "2nd Death Star"
-                }]
+                    imageUrl: "http://icons.iconarchive.com/icons/jonathan-rey/star-wars-vehicles/256/Death-Star-1st-icon.png",
+                    imageAlt: "1st Death Star"
+                }],
+                notify: true
             },
             allowMultipleSelections: {
                 type: Boolean,
                 value: false
-            },
-            selectedIndexes: {
-                type: Array,
-                value: []
             }
         },
         _selectTool(event) {
-            if (this.allowMultipleSelections) {
-                this.selectedIndexes =
-                    this.selectedIndexes.includes(event.model.index) ?
-                    this.selectedIndexes.filter(index => index != event.model.index) :
-                    this.selectedIndexes.concat([event.model.index])
-            } else {
-                // this.selectedIndexes = this.selectedIndexes.includes(event.model.index) ? [] : [event.model.index];
-                this.selectedIndexes = [event.model.index];
+            if (!this.allowMultipleSelections) {
+                this.tools.forEach((tool, index) => {
+                    tool.selected = false;
+                    this.notifyPath("tools." + index + ".selected", false);
+                });
             }
-        },
-        _isItemSelected(index, selectedIndexes) {
-            return selectedIndexes.includes(index);
+            event.model.set("item.selected", !event.model.item.selected);
         },
         _computeClass(index, length) {
             return "item-" + index + (index == length - 1 ? " item-last" : "");

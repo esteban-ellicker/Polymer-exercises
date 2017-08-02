@@ -1,0 +1,81 @@
+<dom-module id="app-toolbar-builder">
+    <template>
+        <style include="app-toolbar-builder-shared-styles">
+
+        </style>
+        <h3>Target</h3>
+        <app-toolbar id="target" tools="[[selectedTools]]"></app-toolbar>
+        <h3>Origin</h3>
+        <app-toolbar id="origin" tools="[[tools]]" allow-multiple-selections></app-toolbar>
+    </template>
+    <script>
+    Polymer({
+        is: 'app-toolbar-builder',
+        properties: {
+            tools: {
+                type: Array,
+                value: [{
+                    text: "Uno",
+                    icon: "fa fa-user fa-fw",
+                    imageUrl: "http://icons.iconarchive.com/icons/everaldo/starwars/128/clone-old-icon.png",
+                    imageAlt: "Storm Trooper"
+                }, {
+                    text: "Dos",
+                    icon: "fa fa-android fa-fw",
+                    imageUrl: "http://icons.iconarchive.com/icons/everaldo/starwars/128/R2-D2-icon.png",
+                    imageAlt: "R2-D2",
+                    selected: true
+                }, {
+                    text: "Tres",
+                    icon: "fa fa-paper-plane fa-fw",
+                    imageUrl: "http://icons.iconarchive.com/icons/jonathan-rey/star-wars-vehicles/256/Tie-Advanced-icon.png",
+                    imageAlt: "Advanced Tie Fighter"
+                }, {
+                    text: "Cuatro",
+                    icon: "fa fa-paper-plane-o fa-fw",
+                    imageUrl: "http://icons.iconarchive.com/icons/jonathan-rey/star-wars-vehicles/256/X-Wing-01-icon.png",
+                    imageAlt: "X-Wing",
+                    selected: true
+                }, {
+                    text: "Cinco",
+                    icon: "fa fa-truck fa-fw",
+                    imageUrl: "http://icons.iconarchive.com/icons/jonathan-rey/star-wars-vehicles/256/Millenium-Falcon-02-icon.png",
+                    imageAlt: "Millenium Falcon",
+                    selected: true
+                }, {
+                    text: "Seis",
+                    icon: "fa fa-globe fa-fw",
+                    imageUrl: "http://icons.iconarchive.com/icons/jonathan-rey/star-wars-vehicles/256/Death-Star-2nd-icon.png",
+                    imageAlt: "2nd Death Star"
+                }, {
+                    text: "Siete",
+                    icon: "fa fa-space-shuttle fa-fw",
+                    imageUrl: "http://icons.iconarchive.com/icons/jonathan-rey/star-wars-vehicles/256/Imperial-Shuttle-01-icon.png",
+                    imageAlt: "Imperial Shuttle"
+                }]
+            },
+            selectedTools: {
+                type: Array,
+                value: []
+            }
+        },
+        listeners: {
+            "origin.tools-changed": "_toolsSelectionChange"
+        },
+        attached() {
+            this.selectedTools = this._computeSelectedTools(this.tools);
+        },
+        _toolsSelectionChange(event) {
+            this.selectedTools = this._computeSelectedTools(this.$.origin.tools);
+        },
+        _computeSelectedTools(tools) {
+            return tools.filter(item => item.selected).map(item => ({
+                text: item.text,
+                icon: item.icon,
+                imageUrl: item.imageUrl,
+                item: item.imageAlt
+            }))
+        }
+    });
+    </script>
+</dom-module>
