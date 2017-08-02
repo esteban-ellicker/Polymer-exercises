@@ -1,0 +1,90 @@
+<link rel="import" href="./bower_components/slate-font-awesome/slate-font-awesome.html">
+<dom-module id="toolbar-item">
+    <template>
+        <style include="slate-font-awesome"></style>
+        <style include="toolbar-item-shared-styles">
+         :host {
+            vertical-align: top;
+            display: var(--toolbar-item-display, inline-block);
+            font-family: var(--toolbar-item-font-family, var(--default-font-family, Arial, sans-serif));
+            font-size: var(--toolbar-item-font-size, var(--default-font-size, 16px));
+        }
+
+        .container {
+            padding: 8px;
+            cursor: pointer;
+            color: white;
+            background: linear-gradient(to bottom right, cornflowerblue, darkblue);
+            @apply --toolbar-item-box-style;
+        }
+
+        .container[selected] {
+            color: yellow;
+            background: linear-gradient(to bottom right, limegreen, darkgreen);
+            @apply --toolbar-item-selected-box-style;
+        }
+
+        .container:hover {
+            background: linear-gradient(to bottom right, deepskyblue, mediumblue);
+            @apply --toolbar-item-hover-box-style;
+        }
+
+        .container[selected]:hover {
+            color: yellow;
+            background: linear-gradient(to bottom right, darkturquoise, green);
+            @apply --toolbar-item-selected-hover-box-style;
+        }
+
+        .content {
+            @apply --toolbar-item-content-style;
+        }
+
+        .image {
+            padding-top: 8px;
+            filter: brightness(90%);
+            @apply --toolbar-item-image-style;
+        }
+
+        .container[selected] .image {
+            filter: brightness(100%) saturate(3);
+            @apply --toolbar-item-selected-image-style;
+        }
+        </style>
+        <div class="container" selected$="[[selected]]">
+            <div class="content">
+                <div><i class$="[[icon]]"></i> [[text]]</div>
+                <template is="dom-if" if="[[imageUrl]]">
+                    <img class="image" src="[[imageUrl]]" alt="[[imageAlt]]">
+                </template>
+            </div>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: 'toolbar-item',
+        properties: {
+            text: {
+                type: String,
+                value: ""
+            },
+            icon: {
+                type: String,
+                value: ""
+            },
+            imageUrl: {
+                type: String,
+                value: ""
+            },
+            imageAlt: {
+                type: String,
+                value: ""
+            },
+            selected: {
+                type: Boolean,
+                value: false,
+                reflectToAttribute: true
+            }
+        }
+    });
+    </script>
+</dom-module>

@@ -1,0 +1,28 @@
+{
+  "name": "ej006toolbar",
+  "authors": [
+    "Esteban Ellicker <esteban.ellicker@bbva.com>"
+  ],
+  "description": "Toolbar con multiselección",
+  "main": "index.html",
+  "keywords": [
+    "toolbar",
+    "seleccionable",
+    "polymer",
+    "múltiple",
+    "ejercicio"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "1.9.3",
+    "slate-font-awesome": "^4.7.3"
+  }
+}
