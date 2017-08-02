@@ -1,0 +1,80 @@
+<link rel="import" href="./bower_components/iron-collapse/iron-collapse.html">
+<dom-module id="listado-seleccionable-item">
+    <template>
+        <style include="listado-seleccionable-item-shared-styles">
+         :host {
+            display: var(--listado-seleccionable-item-display, inline-block);
+            font-family: var(--listado-seleccionable-item-font-family, var(--default-font-family, Arial, sans-serif));
+            font-size: var(--listado-seleccionable-item-font-size, var(--default-font-size, 14px));
+        }
+
+        .container {
+            padding: 8px;
+            margin: 8px;
+            border: 1px solid skyblue;
+            border-radius: 8px;
+            cursor: pointer;
+            @apply --listado-seleccionable-item-box-style;
+        }
+
+        .container[opened] {
+            background: linear-gradient(to bottom right, white, deepskyblue);
+            @apply --listado-seleccionable-item-opened-box-style;
+        }
+
+        .container:hover {
+            background: linear-gradient(to bottom right, white, lightskyblue);
+            @apply --listado-seleccionable-item-hover-box-style;
+        }
+        </style>
+        <div class="container" on-tap="toggle" opened$="[[opened]]">
+            <div class="header">
+                <h3 class="title">[[title]]</h3>
+                <span class="subtitle">[[subtitle]]</span>
+            </div>
+            <div class="content">
+                <iron-collapse id="toggler" opened="[[opened]]">
+                    <h4 class="info-title">[[infoTitle]]</h4>
+                    <span class="info-subtitle">[[infoSubtitle]]</span>
+                </iron-collapse>
+            </div>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: 'listado-seleccionable-item',
+        properties: {
+            title: {
+                type: String,
+                value: "Default Title"
+            },
+            subtitle: {
+                type: String,
+                value: "Default Subtitle"
+            },
+            infoTitle: {
+                type: String,
+                value: "Default Title Info"
+            },
+            infoSubtitle: {
+                type: String,
+                value: "Default Subtitle Info"
+            },
+            opened: {
+                type: Boolean,
+                value: false,
+                reflectToAttribute: true
+            },
+            autoToggle: {
+                type: Boolean,
+                value: false
+            }
+        },
+        toggle: function() {
+            if (this.autoToggle) {
+                this.opened = !this.opened;
+            }
+        }
+    });
+    </script>
+</dom-module>

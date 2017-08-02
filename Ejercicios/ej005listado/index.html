@@ -1,0 +1,44 @@
+<html>
+
+<head>
+    <script>
+    window.Polymer = {
+        dom: 'shadow',
+        useNeativeCSSProperties: true
+    }
+    </script>
+    <link rel="import" href="./bower_components/polymer/polymer.html">
+    <link rel="import" href="./listado-seleccionable-item.html">
+    <link rel="import" href="./listado-seleccionable.html">
+</head>
+
+<body>
+    <listado-seleccionable header="Lista de muestra" subheader="Esto es un ejemplo para probar la funcionalidad" button-text="Continuar"></listado-seleccionable>
+    <script>
+    window.onload = function() {
+        document.querySelector("listado-seleccionable").items = [{
+            title: "Item de muestra número uno",
+            subtitle: "Esto es un ejemplo para probar la funcionalidad",
+            infoTitle: "Lorem ipsum",
+            infoSubtitle: "Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea, id minim maiestatis incorrupte duo. Dolorum verterem ad ius, his et nullam verterem. Eu alia debet usu, an doming tritani est. Vix ad ponderum petentium suavitate, eum eu tempor populo, graece sententiae constituam vim ex. Cu torquatos reprimique neglegentur nec, voluptua periculis has ut, at eos discere deleniti sensibus."
+        }, {
+            title: "Item de muestra número dos",
+            subtitle: "Esto es otro ejemplo para probar la funcionalidad",
+            infoTitle: "Lorem ipsum",
+            infoSubtitle: "Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea, id minim maiestatis incorrupte duo. Dolorum verterem ad ius, his et nullam verterem. Eu alia debet usu, an doming tritani est. Vix ad ponderum petentium suavitate, eum eu tempor populo, graece sententiae constituam vim ex. Cu torquatos reprimique neglegentur nec, voluptua periculis has ut, at eos discere deleniti sensibus."
+        }, {
+            title: "Item de muestra número tres",
+            subtitle: "Esto es otro ejemplo para probar la funcionalidad",
+            infoTitle: "Lorem ipsum",
+            infoSubtitle: "Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea, id minim maiestatis incorrupte duo. Dolorum verterem ad ius, his et nullam verterem. Eu alia debet usu, an doming tritani est. Vix ad ponderum petentium suavitate, eum eu tempor populo, graece sententiae constituam vim ex. Cu torquatos reprimique neglegentur nec, voluptua periculis has ut, at eos discere deleniti sensibus."
+        }, {
+            title: "Item de muestra número cuatro",
+            subtitle: "Esto es otro ejemplo para probar la funcionalidad",
+            infoTitle: "Lorem ipsum",
+            infoSubtitle: "Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea, id minim maiestatis incorrupte duo. Dolorum verterem ad ius, his et nullam verterem. Eu alia debet usu, an doming tritani est. Vix ad ponderum petentium suavitate, eum eu tempor populo, graece sententiae constituam vim ex. Cu torquatos reprimique neglegentur nec, voluptua periculis has ut, at eos discere deleniti sensibus."
+        }];
+    }
+    </script>
+</body>
+
+</html>

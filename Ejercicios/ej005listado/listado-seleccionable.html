@@ -1,0 +1,93 @@
+<link rel="import" href="./listado-seleccionable-item.html">
+<dom-module id="listado-seleccionable">
+    <template>
+        <style include="listado-seleccionable-shared-styles">
+         :host {
+            display: var(--listado-seleccionable-display, block);
+            font-family: var(--listado-seleccionable-item-font-family, var(--default-font-family, Arial, sans-serif));
+            font-size: var(--listado-seleccionable-item-font-size, var(--default-font-size, 14px));
+        }
+
+        .container {
+            padding: 8px;
+            margin: 8px;
+            border: 1px solid darkseagreen;
+            border-radius: 8px;
+            @apply --listado-seleccionable-box-style;
+        }
+
+        .item {
+            display: inline-block;
+        }
+
+        .btn {
+            font-family: var(--listado-seleccionable-item-font-family, var(--default-font-family, Arial, sans-serif));
+            font-size: var(--listado-seleccionable-item-font-size, var(--default-font-size, 14px));
+            padding: 8px 16px;
+            margin: 8px;
+            border-radius: 8px;
+            border: 1px solid royalblue;
+            background: linear-gradient(to bottom right, dodgerblue, mediumblue);
+            color: white;
+            @apply --listado-seleccionable-button-style;
+        }
+
+        .btn[disabled] {
+            border: 1px solid darkgray;
+            background: linear-gradient(to bottom right, lightgray, gray);
+            color: gainsboro;
+            @apply --listado-seleccionable-button-hover-style;
+        }
+        </style>
+        <div class="container">
+            <h1 class="header">[[header]]</h1>
+            <span class="subheader">[[subheader]]</span>
+            <div class="content">
+                <template is="dom-repeat" id="listado" items="[[items]]">
+                    <div class="item" on-tap="_selectItem">
+                        <listado-seleccionable-item title="[[item.title]]" subtitle="[[item.subtitle]]" info-title="[[item.infoTitle]]" info-subtitle="[[item.infoSubtitle]]" opened="[[_isItemOpened(index, selectedIndex)]]"></listado-seleccionable-item>
+                    </div>
+                </template>
+            </div>
+            <template is="dom-if" if="[[buttonText]]">
+                <button class="btn" disabled$="[[!_hasItemOpened(selectedIndex)]]">[[buttonText]]</button>
+            </template>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: 'listado-seleccionable',
+        properties: {
+            header: {
+                type: String,
+                value: "Default Header"
+            },
+            subheader: {
+                type: String,
+                value: "Default Subheader"
+            },
+            buttonText: {
+                type: String,
+                value: ""
+            },
+            items: {
+                type: Array,
+                value: []
+            },
+            selectedIndex: {
+                type: Number,
+                value: null
+            }
+        },
+        _selectItem(event) {
+            this.selectedIndex = this.selectedIndex != event.model.index ? event.model.index : null;
+        },
+        _isItemOpened(index, selectedIndex) {
+            return index == selectedIndex;
+        },
+        _hasItemOpened(selectedIndex) {
+            return selectedIndex != null;
+        }
+    });
+    </script>
+</dom-module>
