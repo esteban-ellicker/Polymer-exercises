@@ -39,7 +39,7 @@
         <div class="container">
             <template is="dom-repeat" id="tools-list" items="{{tools}}">
                 <div class="tool-item" on-tap="_selectTool">
-                    <toolbar-item text="[[item.text]]" icon="[[item.icon]]" image-url="[[item.imageUrl]]" image-alt="[[item.imageAlt]]" selected="[[item.selected]]" class$="[[_computeClass(index, tools.length)]]"></toolbar-item>
+                    <toolbar-item text="[[item.text]]" icon="[[item.icon]]" image-url="[[item.imageUrl]]" image-alt="[[item.imageAlt]]" selected="[[item.selected]]"></toolbar-item>
                 </div>
             </template>
         </div>
@@ -86,19 +86,22 @@
             allowMultipleSelections: {
                 type: Boolean,
                 value: false
+            },
+            allowUnselectOnSingleSelection: {
+                type: Boolean,
+                value: false
             }
         },
         _selectTool(event) {
             if (!this.allowMultipleSelections) {
                 this.tools.forEach((tool, index) => {
-                    tool.selected = false;
-                    this.notifyPath("tools." + index + ".selected", false);
+                    if (!this.allowUnselectOnSingleSelection || index != event.model.index) {
+                        tool.selected = false;
+                        this.notifyPath("tools." + index + ".selected", false);
+                    }
                 });
             }
             event.model.set("item.selected", !event.model.item.selected);
-        },
-        _computeClass(index, length) {
-            return "item-" + index + (index == length - 1 ? " item-last" : "");
         }
     });
     </script>

@@ -3,9 +3,9 @@
         <style include="app-toolbar-builder-shared-styles">
 
         </style>
-        <h3>Target</h3>
-        <app-toolbar id="target" tools="[[selectedTools]]"></app-toolbar>
-        <h3>Origin</h3>
+        <h3>Target <small>(allow-unselect-on-single-selection)</small></h3>
+        <app-toolbar id="target" tools="[[selectedTools]]" allow-unselect-on-single-selection></app-toolbar>
+        <h3>Origin <small>(allow-multiple-selections)</small></h3>
         <app-toolbar id="origin" tools="[[tools]]" allow-multiple-selections></app-toolbar>
     </template>
     <script>
