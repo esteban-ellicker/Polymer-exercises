@@ -1,0 +1,38 @@
+<dom-module id="bbva-wear-dm">
+    <script>
+    Polymer({
+        is: 'bbva-wear-dm',
+        load: function() {
+            this.fire("load-start");
+            this._dpDataLoaded();
+        },
+        _dpDataLoaded(event) {
+            this.fire(
+                "data-loaded", [{
+                    code: '9005697395955603-3748877281850858',
+                    name: 'Playera',
+                    price: 499.9,
+                    sizes: [{ value: 'XS' }, { value: 'S' }, { value: 'L' }, { value: 'XL' }],
+                    sales: 12,
+                    stock: 58
+                }, {
+                    code: '9005697323424234-5252350325802803',
+                    name: 'Pantalon',
+                    price: 999.9,
+                    sizes: [{ value: 'XS' }, { value: 'S' }, { value: 'M' }, { value: 'L' }, { value: 'XL' }],
+                    sales: 10,
+                    stock: 25
+                }, {
+                    code: '9005697322342343-3243242343234234',
+                    name: 'Camiseta',
+                    price: 399.9,
+                    sizes: [{ value: 'M' }, { value: 'L' }, { value: 'XL' }],
+                    sales: 42,
+                    stock: 42
+                }]
+            );
+            this.fire("load-end");
+        }
+    });
+    </script>
+</dom-module>

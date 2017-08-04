@@ -1,4 +1,5 @@
 <link rel="import" href="./bbva-wear-shared-styles.html">
+<link rel="import" href="./bbva-wear-dm.html">
 <link rel="import" href="./product-list.html">
 <link rel="import" href="./out-of-stock-report.html">
 <link rel="import" href="./product-form.html">
@@ -17,6 +18,7 @@
             vertical-align: top;
         }
         </style>
+        <bbva-wear-dm id="dm"></bbva-wear-dm>
         <h1>BBVA Wear</h1>
         <div class="container">
             <product-list id="list" products="[[products]]"></product-list>
@@ -32,28 +34,7 @@
         properties: {
             products: {
                 type: Array,
-                value: [{
-                    code: '9005697395955603-3748877281850858',
-                    name: 'Playera',
-                    price: 499.9,
-                    sizes: [{ value: 'XS' }, { value: 'S' }, { value: 'M' }, { value: 'L' }, { value: 'XL' }],
-                    sales: 12,
-                    stock: 58
-                }, {
-                    code: '9005697323424234-5252350325802803',
-                    name: 'Pantalon',
-                    price: 999.9,
-                    sizes: [{ value: 'XS' }, { value: 'S' }, { value: 'M' }, { value: 'L' }, { value: 'XL' }],
-                    sales: 10,
-                    stock: 25
-                }, {
-                    code: '9005697322342343-3243242343234234',
-                    name: 'Camiseta',
-                    price: 399.9,
-                    sizes: [{ value: 'M' }, { value: 'L' }, { value: 'XL' }],
-                    sales: 42,
-                    stock: 42
-                }]
+                value: []
             },
             inProccessProduct: {
                 type: Object,
@@ -61,10 +42,17 @@
             }
         },
         listeners: {
+            'data-loaded': '_productsLoaded',
             'new-product': '_newProduct',
             'edit-product': '_editProduct',
             'delete-product': '_deleteProduct',
             'save-product': '_saveProduct'
+        },
+        attached() {
+            this.$.dm.load();
+        },
+        _productsLoaded(event) {
+            this.products = event.detail;
         },
         _newProduct() {
             this.inProccessProduct = {
@@ -87,29 +75,27 @@
             if (this.inProccessProduct && this.inProccessProduct.code == product.code) {
                 this.inProccessProduct = null;
             }
-
-            //TODO: Notificar modificación de productos al reporte (en ciertas condiciones no se actualiza la lista)
-            this.$.report.products = this.products.slice();
         },
         _saveProduct(event) {
             let product = event.detail;
             if (product.code) {
                 let index = this.products.findIndex(item => item.code == product.code);
-                this.set('products.' + index, product);
-
-                //TODO: Notificar modificación de productos al reporte
-                /* Esto no funcionó */
-                this.notifyPath('products.' + index + '.price', product.price);
-                this.notifyPath('products.' + index + '.sales', product.sales);
-                this.notifyPath('products.' + index + '.stock', product.stock);
+                this.set('products.' + index + '.code', product.code);
+                this.set('products.' + index + '.name', product.name);
+                this.set('products.' + index + '.price', product.price);
+                this.set('products.' + index + '.sizes', product.sizes.slice());
+                this.set('products.' + index + '.sales', product.sales);
+                this.set('products.' + index + '.stock', product.stock);
             } else {
                 product.code = this.getRandomCode();
                 this.push("products", product);
             }
             this.inProccessProduct = null;
 
-            //TODO: Notificar modificación de productos al reporte
-            this.$.report.products = this.products.slice();
+            //TODO: Notificar modificación de productos al reporte (en ciertas condiciones no se actualiza la lista)
+            var products = this.products;
+            this.set('products', []);
+            this.set('products', products);
         },
         getRandomCode() {
             return (Number.MAX_SAFE_INTEGER - Date.now()) + "-" + Math.round(Math.random() * Number.MAX_SAFE_INTEGER);

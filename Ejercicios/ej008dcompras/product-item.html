@@ -9,17 +9,32 @@
             font-size: var(--product-item-font-size, var(--default-font-size, 14px));
             color: var(--product-item-font-color, var(--default-font-color, black));
         }
+
         labeled-attribute {
             margin: 0 4px;
         }
+
+        .attributes {
+            float: left;
+            margin: 4px 0;
+        }
+
+        .buttons {
+            float: right;
+            margin: 4px;
+        }
         </style>
-        <labeled-attribute name="name" label="Nombre" value="[[name]]"></labeled-attribute>
-        <labeled-attribute name="price" label="Precio" value="[[price]]"></labeled-attribute>
-        <labeled-attribute name="sizes" label="Tallas" value="[[_formatSizes(sizes)]]"></labeled-attribute>
-        <labeled-attribute name="sales" label="Ventas" value="[[sales]]"></labeled-attribute>
-        <labeled-attribute name="stock" label="Stock" value="[[stock]]"></labeled-attribute>
-        <button class="btn edit" type="button" on-tap="_editProduct">Modificar</button>
-        <button class="btn delete" type="button" on-tap="_deleteProduct">Eliminar</button>
+        <span class="attributes">
+            <labeled-attribute name="name" label="Nombre" value="[[name]]"></labeled-attribute>
+            <labeled-attribute name="price" label="Precio" value="[[price]]"></labeled-attribute>
+            <labeled-attribute name="sizes" label="Tallas" value="[[_formatSizes(sizes, sizes.length)]]"></labeled-attribute>
+            <labeled-attribute name="sales" label="Ventas" value="[[sales]]"></labeled-attribute>
+            <labeled-attribute name="stock" label="Stock" value="[[stock]]"></labeled-attribute>
+        </span>
+        <span class="buttons">
+            <button class="btn edit" type="button" on-tap="_editProduct">Modificar</button>
+            <button class="btn delete" type="button" on-tap="_deleteProduct">Eliminar</button>
+        </span>
     </template>
     <script>
     Polymer({

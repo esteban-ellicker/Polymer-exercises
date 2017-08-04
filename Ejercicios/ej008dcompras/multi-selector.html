@@ -69,12 +69,12 @@
         },
         _clickCheckbox(event) {
             if (event.target.checked) {
-                this.set('selected', this.options.filter(
+                this.splice('selected', 0, this.selected.length, ...this.options.filter(
                     option =>
                     option.value == event.target.value || this.selected.find(selItem => selItem.value == option.value)
                 ));
             } else {
-                this.set('selected', this.options.filter(
+                this.splice('selected', 0, this.selected.length, ...this.options.filter(
                     option =>
                     option.value != event.target.value && this.selected.find(selItem => selItem.value == option.value)
                 ));
