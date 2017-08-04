@@ -1,0 +1,145 @@
+<link rel="import" href="./alumno-form-notas.html">
+<dom-module id="alumno-form">
+    <template>
+        <style>
+         :host {
+            display: block;
+            font-family: var(--alumno-form-font-family, var(--default-font-family, Arial, sans-serif));
+            font-size: var(--alumno-form-font-size, var(--default-font-size, 14px));
+            color: var(--alumno-form-font-color, var(--default-font-color, black));
+            border: 1px solid navy;
+            border-radius: 6px;
+            margin: 8px 0;
+            padding: 8px;
+            @apply --alumno-form-box-style;
+        }
+
+        .btn {
+            font-family: var(--alumno-form-font-family, var(--default-font-family, Arial, sans-serif));
+            font-size: var(--alumno-form-font-size, var(--default-font-size, 14px));
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid royalblue;
+            background: linear-gradient(to bottom right, dodgerblue, navy);
+            color: white;
+            @apply --default-button-style;
+        }
+
+        .btn:hover {
+            background: linear-gradient(to bottom right, dodgerblue, blue);
+            @apply --default-button-hover-style;
+        }
+
+        .foto {
+            transition: all 0.8s ease;
+            max-width: 100;
+            max-height: 100;
+            border-radius: 10%;
+        }
+
+        .foto:hover {
+            transition: all 0.8s ease;
+            max-width: 200;
+            max-height: 200;
+        }
+
+        .attr-container {
+            display: inline-block;
+            vertical-align: bottom;
+        }
+
+        .attr {
+            display: inline-block;
+            margin-right: 16px;
+            margin-bottom: 8px;
+        }
+
+        .label {
+            display: block;
+            font-size: var(--alumno-form-label-font-size, 80%);
+            color: var(--alumno-form-font-label-color, gray);
+        }
+
+        .value {
+            font-family: var(--alumno-form-font-family, var(--default-font-family, Arial, sans-serif));
+            font-size: var(--alumno-form-font-size, var(--default-font-size, 14px));
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid darkgrey;
+        }
+
+        .aprobado {
+            color: var(--alumno-form-aprobado-color, var(--default-aprobado-color, green));
+        }
+
+        .reprobado {
+            color: var(--alumno-form-reprobado-color, var(--default-reprobado-color, red));
+        }
+
+        .notas {
+            display: block;
+        }
+        </style>
+        <div class="attr-container">
+            <span class="attr nombre">
+                <label class="label" for="foto">Foto</label>
+                <input class="value" type="url" id="foto" value="{{urlFoto::input}}" size="80">
+            </span>
+            <span class="attr nombre">
+                <label class="label" for="nombres">Nombres</label>
+                <input class="value" type="text" id="nombres" value="{{nombres::input}}">
+            </span>
+            <span class="attr nombre">
+                <label class="label" for="apellidos">Apellidos</label>
+                <input class="value" type="text" id="apellidos" value="{{apellidos::input}}">
+            </span>
+            <span class="attr notas">
+                <label class="label" for="notas">Notas</label>
+                <alumno-form-notas id="notas" notas="{{notas}}"></alumno-form-notas>
+            </span>
+            <button class="btn" type="button" on-tap="_saveAlumno">💾 Save</button>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: 'alumno-form',
+        properties: {
+            identificador: {
+                type: String,
+                value: ""
+            },
+            nombres: {
+                type: String,
+                value: ""
+            },
+            apellidos: {
+                type: String,
+                value: ""
+            },
+            urlFoto: {
+                type: String,
+                value: ""
+            },
+            notas: {
+                type: Array,
+                value: []
+            }
+        },
+        _saveAlumno() {
+            if (this.nombres != "" && this.apellidos != "") {
+                this.fire("save-alumno", {
+                    identificador: this.identificador,
+                    nombres: this.nombres,
+                    apellidos: this.apellidos,
+                    urlFoto: this.urlFoto,
+                    notas: this.notas.filter(nota => this.isValidNota(nota.value))
+                });
+            }
+        },
+        isValidNota(notaValue) {
+            let notaNumber = Number(notaValue);
+            return typeof notaNumber == "number" && !Number.isNaN(notaNumber) && notaNumber <= 10 && notaNumber >= 0;
+        }
+    });
+    </script>
+</dom-module>

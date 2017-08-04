@@ -1,0 +1,93 @@
+<dom-module id="alumno-form-notas">
+    <template>
+        <style>
+         :host {
+            display: block;
+            font-family: var(--alumno-form-notas-font-family, var(--default-font-family, Arial, sans-serif));
+            font-size: var(--alumno-form-notas-font-size, var(--default-font-size, 14px));
+            color: var(--alumno-form-notas-font-color, var(--default-font-color, black));
+            border: 1px solid darkgray;
+            border-radius: 6px;
+            padding: 8px;
+            @apply --alumno-form-notas-box-style;
+        }
+
+        .btn {
+            font-family: var(--alumno-form-font-family, var(--default-font-family, Arial, sans-serif));
+            font-size: var(--alumno-form-font-size, var(--default-font-size, 14px));
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid royalblue;
+            background: linear-gradient(to bottom right, dodgerblue, navy);
+            color: white;
+            @apply --default-button-style;
+        }
+
+        .btn:hover {
+            background: linear-gradient(to bottom right, dodgerblue, blue);
+            @apply --default-button-hover-style;
+        }
+
+        .new-btn {
+            float: right;
+        }
+
+        .attr {
+            display: inline-block;
+            margin-right: 4px;
+            margin-bottom: 8px;
+        }
+
+        .value {
+            font-family: var(--alumno-form-font-family, var(--default-font-family, Arial, sans-serif));
+            font-size: var(--alumno-form-font-size, var(--default-font-size, 14px));
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid darkgrey;
+            text-align: right;
+        }
+
+        .invalid {
+            background: linear-gradient(to bottom right, white, lightcoral);
+        }
+
+        .empty {
+            background: linear-gradient(to bottom right, white, #ffff77);
+        }
+
+        .clear {
+            clear: both;
+        }
+        </style>
+        <div class="attr-container">
+            <template is="dom-repeat" id="notas-list" items="{{notas}}" as="nota">
+                <span class="attr nota">
+                    <input class="value" type="number" id="nota" value="{{nota.value::input}}" min="0" max="10" step="0.1" class$="[[_computeValueStyle(nota.value)]]"/>
+                </span>
+            </template>
+            <button class="btn new-btn" type="button" on-tap="_notaAddNew">➕ Nueva Nota</button>
+            <div class="clear"></div>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: 'alumno-form-notas',
+        properties: {
+            notas: {
+                type: Array,
+                value: []
+            }
+        },
+        _notaAddNew() {
+            this.push("notas", {});
+        },
+        _computeValueStyle(notaValue) {
+            return notaValue == null ? "empty value" : this.isValidNota(notaValue) ? "value" : "invalid value";
+        },
+        isValidNota(notaValue) {
+            let notaNumber = Number(notaValue);
+            return typeof notaNumber == "number" && !Number.isNaN(notaNumber) && notaNumber <= 10 && notaNumber >= 0;
+        }
+    });
+    </script>
+</dom-module>

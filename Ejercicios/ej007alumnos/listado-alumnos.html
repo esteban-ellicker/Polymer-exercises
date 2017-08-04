@@ -1,0 +1,59 @@
+<link rel="import" href="./listado-alumnos-item.html">
+<dom-module id="listado-alumnos">
+    <template>
+        <style>
+         :host {
+            display: block;
+            font-family: var(--alumno-form-font-family, var(--default-font-family, Arial, sans-serif));
+            font-size: var(--alumno-form-font-size, var(--default-font-size, 14px));
+            color: var(--alumno-form-font-color, var(--default-font-color, black));
+            border: 1px solid navy;
+            border-radius: 6px;
+            margin: 8px 0;
+            padding: 8px;
+            @apply --alumno-list-box-style;
+        }
+
+        .btn {
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid #279;
+            background: linear-gradient(160deg, #08c, navy);
+            color: #fff;
+            @apply --default-button-style;
+        }
+
+        .btn:hover {
+            background: linear-gradient(to bottom right, dodgerblue, blue);
+            @apply --default-button-hover-style;
+        }
+
+        .new-btn {
+            float: right;
+        }
+        </style>
+        <button class="btn new-btn" type="button" on-tap="_newAlumno">➕ Nuevo Alumno</button>
+        <template is="dom-if" if="[[alumnos.length]]">
+            <template is="dom-repeat" id="alumnos-list" items="[[alumnos]]" as="alumno">
+                <listado-alumnos-item identificador="[[alumno.identificador]]" nombres="[[alumno.nombres]]" apellidos="[[alumno.apellidos]]" url-foto="[[alumno.urlFoto]]" notas="[[alumno.notas]]"></listado-alumnos-item>
+            </template>
+        </template>
+        <template is="dom-if" if="[[!alumnos.length]]">
+            <div class="mensaje">⛔ No hay alumnos para listar</div>
+        </template>
+    </template>
+    <script>
+    Polymer({
+        is: 'listado-alumnos',
+        properties: {
+            alumnos: {
+                type: Array,
+                value: []
+            }
+        },
+        _newAlumno() {
+            this.fire("new-alumno");
+        }
+    });
+    </script>
+</dom-module>

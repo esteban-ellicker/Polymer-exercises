@@ -1,0 +1,26 @@
+{
+  "name": "ej007alumnos",
+  "authors": [
+    "Esteban Ellicker <esteban.ellicker@bbva.com>"
+  ],
+  "description": "Ejercicio número 7 listado de alumnos",
+  "main": "index.html",
+  "keywords": [
+    "ejercicio",
+    "polymer",
+    "listado",
+    "alumnos"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "1.9.3"
+  }
+}

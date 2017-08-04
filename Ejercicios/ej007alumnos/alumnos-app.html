@@ -1,0 +1,96 @@
+<link rel="import" href="./listado-shared-styles.html">
+<link rel="import" href="./listado-alumnos.html">
+<link rel="import" href="./alumno-form.html">
+<dom-module id="alumnos-app">
+    <template>
+        <style include="listado-shared-styles">
+
+        </style>
+        <h1>Listado de alumnos</h1>
+        <listado-alumnos alumnos="[[alumnos]]"></listado-alumnos>
+        <template is="dom-if" if="[[alumnoSeleccionado]]">
+            <alumno-form id="form-editar" identificador="[[alumnoSeleccionado.identificador]]" nombres="[[alumnoSeleccionado.nombres]]" apellidos="[[alumnoSeleccionado.apellidos]]" url-foto="[[alumnoSeleccionado.urlFoto]]" notas="[[alumnoSeleccionado.notas]]"></alumno-form>
+        </template>
+    </template>
+    <script>
+    Polymer({
+        is: 'alumnos-app',
+        properties: {
+            alumnos: {
+                type: Array,
+                // value: []
+                value: [{
+                    identificador: "1501796749255-8142987380887475",
+                    nombres: "Pedro Pablo",
+                    apellidos: "Perez Pereira",
+                    urlFoto: "https://lorempixel.com/output/people-q-c-200-200-1.jpg",
+                    notas: [{ value: 2 }, { value: 5 }, { value: 3.5 }, { value: 4.6 }, { value: 7 }, { value: 2 }, { value: 9 }, { value: 3 }]
+                }, {
+                    identificador: "1501796749255-4365933191078762",
+                    nombres: "Pedro Miguel",
+                    apellidos: "Perez Ramirez",
+                    urlFoto: "https://lorempixel.com/output/people-q-c-200-200-2.jpg",
+                    notas: [{ value: 4 }, { value: 5 }, { value: 5.5 }, { value: 4.6 }, { value: 7 }, { value: 6 }, { value: 9 }, { value: 3 }]
+                }, {
+                    identificador: "1501796749255-6513430433219107",
+                    nombres: "Pedro Jose",
+                    apellidos: "Perez Rodriguez",
+                    urlFoto: "https://lorempixel.com/output/people-q-c-200-200-3.jpg",
+                    notas: [{ value: 3 }, { value: 5 }, { value: 5.5 }, { value: 7.6 }, { value: 7 }, { value: 7 }, { value: 9 }, { value: 3 }]
+                }]
+            },
+            alumnoSeleccionado: {
+                type: Object,
+                value: null
+            }
+        },
+        listeners: {
+            "new-alumno": "_newAlumno",
+            "edit-alumno": "_editAlumno",
+            "delete-alumno": "_deleteAlumno",
+            "save-alumno": "_saveAlumno"
+        },
+        _newAlumno() {
+            this.alumnoSeleccionado = {
+                identificador: null,
+                nombres: "",
+                apellidos: "",
+                urlFoto: "",
+                notas: []
+            };
+        },
+        _editAlumno(event) {
+            let alumno = event.detail;
+            console.log(alumno);
+            this.alumnoSeleccionado = alumno;
+        },
+        _deleteAlumno(event) {
+            let alumno = event.detail;
+            console.log(alumno);
+            let index = this.alumnos.findIndex(itemAlumno => itemAlumno.identificador == alumno.identificador);
+            this.splice('alumnos', index, 1);
+            if (this.alumnoSeleccionado && this.alumnoSeleccionado.identificador == alumno.identificador) {
+                this.alumnoSeleccionado = null;
+            }
+        },
+        _saveAlumno(event) {
+            console.log(event.detail);
+            console.log(this.alumnoSeleccionado);
+            let alumno = event.detail;
+            if (alumno.identificador) {
+                let index = this.alumnos.findIndex(itemAlumno => itemAlumno.identificador == alumno.identificador);
+                this.splice('alumnos', index, 1, alumno);
+                // this.notifyPath("alumnos." + index + ".notas", alumno.notas);
+                // this.notifyPath("alumnos." + index + ".notas.length", alumno.notas.length);
+            } else {
+                alumno.identificador = this.getRandomId();
+                this.push("alumnos", alumno);
+            }
+            this.alumnoSeleccionado = null;
+        },
+        getRandomId() {
+            return Date.now() + "-" + Math.round(Math.random() * Number.MAX_SAFE_INTEGER);
+        }
+    });
+    </script>
+</dom-module>

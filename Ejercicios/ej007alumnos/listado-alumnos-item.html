@@ -1,0 +1,151 @@
+<dom-module id="listado-alumnos-item">
+    <template>
+        <style>
+         :host {
+            display: block;
+            font-family: var(--listado-alumnos-item-font-family, var(--default-font-family, Arial, sans-serif));
+            font-size: var(--listado-alumnos-item-font-size, var(--default-font-size, 14px));
+            color: var(--listado-alumnos-item-font-color, var(--default-font-color, black));
+        }
+
+        .btn {
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid royalblue;
+            background: linear-gradient(to bottom right, dodgerblue, navy);
+            color: white;
+            @apply --default-button-style;
+        }
+
+        .btn:hover {
+            background: linear-gradient(to bottom right, dodgerblue, blue);
+            @apply --default-button-hover-style;
+        }
+
+        .foto {
+            transition: all 0.8s ease;
+            max-width: 100;
+            max-height: 100;
+            border-radius: 8px;
+        }
+
+        .foto:hover {
+            transition: all 0.8s ease;
+            max-width: 200;
+            max-height: 200;
+        }
+
+        .no-foto {
+            font-size: 90%;
+            color: firebrick;
+            border: 1px solid firebrick;
+            min-width: 82;
+            min-height: 82;
+            border-radius: 8px;
+            padding: 8px;
+            display: inline-block;
+        }
+
+        .no-media {
+            font-size: 90%;
+            color: firebrick;
+        }
+
+        .attr-container {
+            display: inline-block;
+            margin: 8px;
+            vertical-align: bottom;
+        }
+
+        .attr {
+            display: inline-block;
+            margin-right: 16px;
+        }
+
+        .aprobado {
+            color: var(--listado-alumnos-item-aprobado-color, var(--default-aprobado-color, green));
+        }
+
+        .reprobado {
+            color: var(--listado-alumnos-item-reprobado-color, var(--default-reprobado-color, red));
+        }
+        </style>
+        <template is="dom-if" if="[[urlFoto]]">
+            <img class="foto" src="[[urlFoto]]" alt="Foto">
+        </template>
+        <template is="dom-if" if="[[!urlFoto]]">
+            <span class="no-foto">⛔ Sin Foto</span>
+        </template>
+        <div class="attr-container">
+            <span class="attr nombre">[[nombres]]</span>
+            <span class="attr nombre">[[apellidos]]</span>
+        <template is="dom-if" if="[[media]]">
+            <span class$="[[_computeMediaStyle(media)]]">[[_formatNota(media)]]</span>
+        </template>
+        <template is="dom-if" if="[[!media]]">
+            <span class="attr no-media">⛔ Sin Notas</span>
+        </template>
+            <button class="btn" type="button" on-tap="_editAlumno">📝 Edit</button>
+            <button class="btn" type="button" on-tap="_deleteAlumno">❌ Delete</button>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: 'listado-alumnos-item',
+        properties: {
+            identificador: {
+                type: String,
+                value: ""
+            },
+            nombres: {
+                type: String,
+                value: ""
+            },
+            apellidos: {
+                type: String,
+                value: ""
+            },
+            urlFoto: {
+                type: String,
+                value: ""
+            },
+            notas: {
+                type: Array,
+                value: []
+            },
+            media: {
+                type: Number,
+                value: "",
+                computed: "_computeMedia(notas)"
+            }
+        },
+        _computeMedia(notas) {
+            return notas.length ? notas.reduce((suma, nota) => suma + Number(nota.value), 0) / notas.length : "";
+        },
+        _computeMediaStyle(media) {
+            return media < 5 ? "attr reprobado" : "attr aprobado";
+        },
+        _formatNota(media) {
+            return media ? media.toFixed(1) : "";
+        },
+        _editAlumno() {
+            this.fire("edit-alumno", {
+                identificador: this.identificador,
+                nombres: this.nombres,
+                apellidos: this.apellidos,
+                urlFoto: this.urlFoto,
+                notas: this.notas
+            });
+        },
+        _deleteAlumno() {
+            this.fire("delete-alumno", {
+                identificador: this.identificador,
+                nombres: this.nombres,
+                apellidos: this.apellidos,
+                urlFoto: this.urlFoto,
+                notas: this.notas
+            });
+        }
+    });
+    </script>
+</dom-module>
