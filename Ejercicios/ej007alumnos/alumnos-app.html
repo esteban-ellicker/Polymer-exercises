@@ -60,13 +60,10 @@
             };
         },
         _editAlumno(event) {
-            let alumno = event.detail;
-            console.log(alumno);
-            this.alumnoSeleccionado = alumno;
+            this.alumnoSeleccionado = event.detail;
         },
         _deleteAlumno(event) {
             let alumno = event.detail;
-            console.log(alumno);
             let index = this.alumnos.findIndex(itemAlumno => itemAlumno.identificador == alumno.identificador);
             this.splice('alumnos', index, 1);
             if (this.alumnoSeleccionado && this.alumnoSeleccionado.identificador == alumno.identificador) {
@@ -74,14 +71,10 @@
             }
         },
         _saveAlumno(event) {
-            console.log(event.detail);
-            console.log(this.alumnoSeleccionado);
             let alumno = event.detail;
             if (alumno.identificador) {
                 let index = this.alumnos.findIndex(itemAlumno => itemAlumno.identificador == alumno.identificador);
                 this.splice('alumnos', index, 1, alumno);
-                // this.notifyPath("alumnos." + index + ".notas", alumno.notas);
-                // this.notifyPath("alumnos." + index + ".notas.length", alumno.notas.length);
             } else {
                 alumno.identificador = this.getRandomId();
                 this.push("alumnos", alumno);
