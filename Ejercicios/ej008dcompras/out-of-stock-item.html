@@ -1,13 +1,24 @@
+<link rel="import" href="./labeled-attribute.html">
 <dom-module id="out-of-stock-item">
     <template>
         <style include="bbva-wear-shared-styles">
+         :host {
+            display: block;
+            margin: 4px 0;
+            font-family: var(--out-of-stock-item-font-family, var(--default-font-family, Verdana, Arial, Helvetica, sans-serif));
+            font-size: var(--out-of-stock-item-font-size, var(--default-font-size, 14px));
+            color: var(--out-of-stock-item-font-color, var(--default-font-color, black));
+        }
 
+        labeled-attribute {
+            margin: 0 4px;
+        }
         </style>
-        <span class="attr name">[[name]]</span>
-        <span class="attr price">[[price]]</span>
-        <span class="attr sizes">[[_formatSizes(sizes)]]</span>
-        <span class="attr sales">[[sales]]</span>
-        <span class="attr stock">[[_computeIncome(price, sales)]]</span>
+        <labeled-attribute name="name" label="Nombre" value="[[name]]"></labeled-attribute>
+        <labeled-attribute name="price" label="Precio" value="[[price]]"></labeled-attribute>
+        <labeled-attribute name="sizes" label="Tallas" value="[[_formatSizes(sizes)]]"></labeled-attribute>
+        <labeled-attribute name="sales" label="Ventas" value="[[sales]]"></labeled-attribute>
+        <labeled-attribute name="income" label="Ingreso" value="[[_computeIncome(price, sales)]]"></labeled-attribute>
     </template>
     <script>
     Polymer({
@@ -39,7 +50,7 @@
             }
         },
         _formatSizes(sizes) {
-            return sizes.join(", ");
+            return sizes.map(size => size.value).join(", ");
         },
         _computeIncome(price, sales) {
             return price * sales

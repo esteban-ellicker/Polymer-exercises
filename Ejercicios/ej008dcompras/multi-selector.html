@@ -1,0 +1,85 @@
+<dom-module id="multi-selector">
+    <template>
+        <style include="bbva-wear-shared-styles">
+         :host {
+            display: inline-block;
+            font-family: var(--multi-selector-font-family, var(--default-font-family, Verdana, Arial, Helvetica, sans-serif));
+            font-size: var(--multi-selector-font-size, var(--default-font-size, 14px));
+            color: var(--multi-selector-font-color, var(--default-font-color, black));
+        }
+
+        .attr {
+            display: inline-block;
+        }
+
+        .label {
+            display: block;
+            font-family: var(--multi-selector-label-font-family, var(--default-label-font-family, unset));
+            font-size: var(--multi-selector-label-font-size, var(--default-label-font-size, 12px));
+            color: var(--multi-selector-label-font-color, var(--default-label-font-color, grey));
+        }
+
+        .value {
+            display: block;
+        }
+
+        .option {
+            margin: 0 4px 0 0;
+        }
+        </style>
+        <div class$="[[usedIn]] attr [[name]]">
+            <span class="label">[[label]]</span>
+            <span class="value">
+                <template is="dom-repeat" id="options" items="[[options]]">
+                    <span class="option">
+                        <input type="checkbox" value="[[item.value]]" checked="[[_computeCheched(item, selected)]]" on-tap="_clickCheckbox">
+                        [[item.value]]
+                    </span>
+                </template>
+            </span>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: 'multi-selector',
+        properties: {
+            usedIn: {
+                type: String,
+                value: ''
+            },
+            name: {
+                type: String,
+                value: ''
+            },
+            label: {
+                type: String,
+                value: ''
+            },
+            options: {
+                type: Array,
+                value: []
+            },
+            selected: {
+                type: Array,
+                value: []
+            }
+        },
+        _computeCheched(item, selected) {
+            return selected.find(selItem => selItem.value == item.value);
+        },
+        _clickCheckbox(event) {
+            if (event.target.checked) {
+                this.set('selected', this.options.filter(
+                    option =>
+                    option.value == event.target.value || this.selected.find(selItem => selItem.value == option.value)
+                ));
+            } else {
+                this.set('selected', this.options.filter(
+                    option =>
+                    option.value != event.target.value && this.selected.find(selItem => selItem.value == option.value)
+                ));
+            }
+        }
+    });
+    </script>
+</dom-module>

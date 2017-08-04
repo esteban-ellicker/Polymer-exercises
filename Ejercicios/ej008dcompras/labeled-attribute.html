@@ -1,0 +1,54 @@
+<dom-module id="labeled-attribute">
+    <template>
+        <style include="bbva-wear-shared-styles">
+         :host {
+            display: inline-block;
+            font-family: var(--labeled-attribute-font-family, var(--default-font-family, Verdana, Arial, Helvetica, sans-serif));
+            font-size: var(--labeled-attribute-font-size, var(--default-font-size, 14px));
+            color: var(--labeled-attribute-font-color, var(--default-font-color, black));
+        }
+
+        .attr {
+            display: inline-block;
+        }
+
+        .label {
+            display: block;
+            font-family: var(--labeled-attribute-label-font-family, var(--default-label-font-family, unset));
+            font-size: var(--labeled-attribute-label-font-size, var(--default-label-font-size, 12px));
+            color: var(--labeled-attribute-label-font-color, var(--default-label-font-color, grey));
+        }
+
+        .value {
+            display: block;
+        }
+        </style>
+        <div class$="[[usedIn]] attr [[name]]">
+            <span class="label">[[label]]</span>
+            <span class="value">[[value]]</span>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: 'labeled-attribute',
+        properties: {
+            usedIn: {
+                type: String,
+                value: ""
+            },
+            name: {
+                type: String,
+                value: ""
+            },
+            label: {
+                type: String,
+                value: ""
+            },
+            value: {
+                type: String,
+                value: ""
+            }
+        }
+    });
+    </script>
+</dom-module>

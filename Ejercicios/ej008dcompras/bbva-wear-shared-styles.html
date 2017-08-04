@@ -1,0 +1,48 @@
+<dom-module id="bbva-wear-shared-styles">
+    <template>
+        <style>
+         :root {
+            --default-font-family: Verdana, Arial, Helvetica, sans-serif;
+            --default-font-size: 14px;
+            --default-font-color: black;
+
+            --default-label-font-size: 12px;
+            --default-label-font-color: slategray;
+
+            --default-box-border: 1px solid slategray;
+            --default-box-margin: 4px 0;
+            --default-box-padding: 4px;
+        }
+
+         :host {
+            display: inline-block;
+        }
+
+        .form .value {
+            border: 1px solid silver;
+            border-radius: 4px;
+            padding: 2px 4px;
+            line-height: 20px;
+        }
+
+        .form .value[type="number"] {
+            text-align: right;
+        }
+
+        .btn {
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid royalblue;
+            background: linear-gradient(to bottom right, dodgerblue, navy);
+            font-family: var(--default-font-family, Verdana, Arial, Helvetica, sans-serif);
+            font-size: var(--default-font-size, 14px);
+            color: white;
+        }
+
+        .btn:hover {
+            background: linear-gradient(to bottom right, dodgerblue, blue);
+            color: white;
+        }
+        </style>
+    </template>
+</dom-module>

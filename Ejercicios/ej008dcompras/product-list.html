@@ -2,11 +2,27 @@
 <dom-module id="product-list">
     <template>
         <style include="bbva-wear-shared-styles">
+         :host {
+            display: inline-block;
+            border: var(--default-box-border, 1px solid silver);
+            margin: var(--default-box-margin, 4px);
+            padding: var(--default-box-padding, 4px);
+            font-family: var(--product-list-font-family, var(--default-font-family, Verdana, Arial, Helvetica, sans-serif));
+            font-size: var(--product-list-font-size, var(--default-font-size, 14px));
+            color: var(--product-list-font-color, var(--default-font-color, black));
+        }
 
+        .new {
+            float: right;
+        }
         </style>
+        <button class="btn new" type="button" on-tap="_newProduct">Nuevo Producto</button>
         <h2>Listado de Productos</h2>
         <template is="dom-repeat" id="list" items="[[products]]" as="product">
             <product-item code="[[product.code]]" name="[[product.name]]" price="[[product.price]]" sizes="[[product.sizes]]" sales="[[product.sales]]" stock="[[product.stock]]"></product-item>
+        </template>
+        <template is="dom-if" if="[[!products.length]]">
+            <p>No hay productos disponibles</p>
         </template>
     </template>
     <script>
