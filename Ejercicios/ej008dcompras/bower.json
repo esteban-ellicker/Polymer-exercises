@@ -1,0 +1,26 @@
+{
+  "name": "ej008dcompras",
+  "authors": [
+    "Esteban Ellicker <esteban.ellicker@bbva.com>"
+  ],
+  "description": "Ejercicio número 8 (examen) portal dcompras",
+  "main": "index.html",
+  "keywords": [
+    "examen",
+    "polymer",
+    "portal",
+    "dcompras"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "1.9.3"
+  }
+}

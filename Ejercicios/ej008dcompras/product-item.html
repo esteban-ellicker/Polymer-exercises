@@ -1,0 +1,64 @@
+<dom-module id="product-item">
+    <template>
+        <style include="bbva-wear-shared-styles">
+
+        </style>
+        <span class="attr name">[[name]]</span>
+        <span class="attr price">[[price]]</span>
+        <span class="attr sizes">[[_formatSizes(sizes)]]</span>
+        <span class="attr sales">[[sales]]</span>
+        <span class="attr stock">[[stock]]</span>
+        <button class="btn edit" type="button" on-tap="_editProduct">Modificar</button>
+        <button class="btn delete" type="button" on-tap="_deleteProduct">Eliminar</button>
+    </template>
+    <script>
+    Polymer({
+        is: 'product-item',
+        properties: {
+            code: {
+                type: String,
+                value: ""
+            },
+            name: {
+                type: String,
+                value: ""
+            },
+            price: {
+                type: Number,
+                value: null
+            },
+            sizes: {
+                type: Array,
+                value: []
+            },
+            sales: {
+                type: Number,
+                value: null
+            },
+            stock: {
+                type: Number,
+                value: null
+            }
+        },
+        _formatSizes(sizes) {
+            return sizes.join(", ");
+        },
+        _getActionData() {
+            return {
+                code: this.code,
+                name: this.name,
+                price: this.price,
+                sizes: this.sizes,
+                sales: this.sales,
+                stock: this.stock
+            }
+        },
+        _editProduct() {
+            this.fire("edit-product", this._getActionData());
+        },
+        _deleteProduct() {
+            this.fire("delete-product", this._getActionData());
+        }
+    });
+    </script>
+</dom-module>

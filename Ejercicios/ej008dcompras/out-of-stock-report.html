@@ -1,0 +1,26 @@
+<link rel="import" href="./out-of-stock-item.html">
+<dom-module id="out-of-stock-report">
+    <template>
+        <style include="bbva-wear-shared-styles">
+
+        </style>
+        <h2>Productos sin Stock</h2>
+        <template is="dom-repeat" id="list" items="[[_computeOutOfStockList(products)]]" as="product">
+            <out-of-stock-item code="[[product.code]]" name="[[product.name]]" price="[[product.price]]" sizes="[[product.sizes]]" sales="[[product.sales]]" stock="[[product.stock]]"></out-of-stock-item>
+        </template>
+    </template>
+    <script>
+    Polymer({
+        is: 'out-of-stock-report',
+        properties: {
+            products: {
+                type: Array,
+                value: []
+            }
+        },
+        _computeOutOfStockList(products) {
+            return products.filter(product => product.stock == product.sales)
+        }
+    });
+    </script>
+</dom-module>

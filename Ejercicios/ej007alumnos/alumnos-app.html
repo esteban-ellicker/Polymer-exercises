@@ -74,7 +74,7 @@
             let alumno = event.detail;
             if (alumno.identificador) {
                 let index = this.alumnos.findIndex(itemAlumno => itemAlumno.identificador == alumno.identificador);
-                this.splice('alumnos', index, 1, alumno);
+                this.set("alumnos." + index, alumno);
             } else {
                 alumno.identificador = this.getRandomId();
                 this.push("alumnos", alumno);

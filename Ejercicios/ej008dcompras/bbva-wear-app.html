@@ -1,0 +1,92 @@
+<link rel="import" href="./product-list.html">
+<link rel="import" href="./out-of-stock-report.html">
+<link rel="import" href="./product-form.html">
+<dom-module id="bbva-wear-app">
+    <template>
+        <style include="bbva-wear-shared-styles">
+
+        </style>
+        <h1>BBVA Wear</h1>
+        <product-list products="[[products]]"></product-list>
+        <out-of-stock-report products="[[products]]"></out-of-stock-report>
+        <product-form code="[[inProccessProduct.code]]" name="[[inProccessProduct.name]]" price="[[inProccessProduct.price]]" sizes="[[inProccessProduct.sizes]]" sales="[[inProccessProduct.sales]]" stock="[[inProccessProduct.stock]]"></product-form>
+    </template>
+    <script>
+    Polymer({
+        is: 'bbva-wear-app',
+        properties: {
+            products: {
+                type: Array,
+                value: [{
+                    code: "9005697395955603-3748877281850858",
+                    name: "Playera",
+                    price: 499.9,
+                    sizes: ['XS', 'S', 'M', 'L', 'XL'],
+                    sales: 12,
+                    stock: 58
+                }, {
+                    code: "9005697323424234-5252350325802803",
+                    name: "Pantalon",
+                    price: 999.9,
+                    sizes: ['XS', 'S', 'M', 'L', 'XL'],
+                    sales: 10,
+                    stock: 25
+                }, {
+                    code: "9005697322342343-3243242343234234",
+                    name: "Camiseta",
+                    price: 399.9,
+                    sizes: ['M', 'L', 'XL'],
+                    sales: 42,
+                    stock: 42
+                }]
+            },
+            inProccessProduct: {
+                type: Object,
+                value: null
+            }
+        },
+        listeners: {
+            "new-product": "_newProduct",
+            "edit-product": "_editProduct",
+            "delete-product": "_deleteProduct",
+            "save-product": "_saveProduct"
+        },
+        _newProduct() {
+            this.inProccessProduct = {
+                code: null,
+                name: "",
+                price: null,
+                sizes: [],
+                sales: null,
+                stock: null
+            };
+        },
+        _editProduct(event) {
+            let product = event.detail;
+            this.inProccessProduct = this.products.find(item => item.code == product.code);
+        },
+        _deleteProduct(event) {
+            let product = event.detail;
+            let index = this.products.findIndex(item => item.code == product.code);
+            this.splice('products', index, 1);
+            if (this.inProccessProduct && this.inProccessProduct.code == product.code) {
+                this.inProccessProduct = null;
+            }
+        },
+        _saveProduct(event) {
+            let product = event.detail;
+            if (product.code) {
+                let index = this.products.findIndex(item => item.code == product.code);
+                this.set("products." + index, product);
+            } else {
+                product.code = this.getRandomCode();
+                this.push("products", product);
+            }
+            this.inProccessProduct = null;
+        },
+        getRandomCode() {
+            return (Number.MAX_SAFE_INTEGER - Date.now()) + "-" + Math.round(Math.random() * Number.MAX_SAFE_INTEGER);
+        }
+    });
+    </script>
+</dom-module>

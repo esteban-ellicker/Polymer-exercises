@@ -1,0 +1,26 @@
+<link rel="import" href="./product-item.html">
+<dom-module id="product-list">
+    <template>
+        <style include="bbva-wear-shared-styles">
+
+        </style>
+        <h2>Listado de Productos</h2>
+        <template is="dom-repeat" id="list" items="[[products]]" as="product">
+            <product-item code="[[product.code]]" name="[[product.name]]" price="[[product.price]]" sizes="[[product.sizes]]" sales="[[product.sales]]" stock="[[product.stock]]"></product-item>
+        </template>
+    </template>
+    <script>
+    Polymer({
+        is: 'product-list',
+        properties: {
+            products: {
+                type: Array,
+                value: []
+            }
+        },
+        _newProduct() {
+            this.fire("new-product");
+        }
+    });
+    </script>
+</dom-module>
