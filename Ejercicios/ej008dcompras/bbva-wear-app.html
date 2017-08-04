@@ -83,7 +83,7 @@
                 this.set('products.' + index + '.code', product.code);
                 this.set('products.' + index + '.name', product.name);
                 this.set('products.' + index + '.price', product.price);
-                this.set('products.' + index + '.sizes', product.sizes.slice());
+                this.set('products.' + index + '.sizes', Object.assign([], product.sizes));
                 this.set('products.' + index + '.sales', product.sales);
                 this.set('products.' + index + '.stock', product.stock);
             } else {
@@ -93,9 +93,8 @@
             this.inProccessProduct = null;
 
             //TODO: Notificar modificación de productos al reporte (en ciertas condiciones no se actualiza la lista)
-            var products = this.products;
-            this.set('products', []);
-            this.set('products', products);
+            let products = this.products;
+            this.set('products', Object.assign([], products));
         },
         getRandomCode() {
             return (Number.MAX_SAFE_INTEGER - Date.now()) + "-" + Math.round(Math.random() * Number.MAX_SAFE_INTEGER);
